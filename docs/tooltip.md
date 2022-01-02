@@ -1,6 +1,6 @@
-Tooltip directive `v-rtip`. Supports top (default), bottom, left and right alignment: `v-rtip.bottom`, `v-rtip.left`, `v-rtip.right`.
+A basic tooltip directive `v-r-tip`. Supports top (default), bottom, left and right alignment: `v-r-tip.bottom`, `v-r-tip.left`, `v-r-tip.right`.
 ```html
 <div
-  v-rtip="'Tooltip text'"
+  v-r-tip="'Tooltip text'"
 ></div>
 ```

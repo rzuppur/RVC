@@ -1,0 +1,18 @@
+@import "./shared/mixins.styl"
+
+html,
+body
+  height 100%
+
+#app
+  min-height 100%
+
+html
+  color-scheme light
+
++darkMode()
+  color-scheme dark
+
+body
+  background $c-background
+  color $c-text

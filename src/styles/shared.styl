@@ -1,130 +1,109 @@
+@require "shared/color-palette.styl"
+@require "shared/mixins.styl"
+
+
 /*
 COLORS
-
-naming:
-$color - {type?} - {name} - {darkmode?}
-
  */
+c("background", $p-gray-100, $p-gray-950)
+c("background-raised", $p-white, $p-gray-900)
 
-$color-blue ?= #2097e8
-$color-text-blue ?= #1c69ab
-$color-text-blue-darkmode ?= lighten($color-blue, 8)
+c("text", $p-gray-900, $p-gray-400)
+c("text-muted", $p-gray-700, $p-gray-500)
+c("text-blue", $p-blue-800, $p-blue-600)
+c("text-purple", $p-purple-500, $p-purple-300)
+c("text-red", $p-red-600, $p-red-300)
+c("text-yellow", $p-yellow-600)
+c("text-white", $p-white)
 
-$color-red ?= #e24161
-$color-text-red ?= #b71317
-$color-text-red-darkmode ?= $color-red
+c("border-light", $p-gray-200, $p-gray-850)
+c("border-medium", $p-gray-300, $p-gray-800)
+c("border-dark", $p-gray-500, $p-gray-600)
 
-$color-green ?= #009635
-$color-text-green ?= #109541
+c("accent-white", $p-white)
+c("accent-black", $p-black)
+c("accent-yellow", $p-yellow-400, $p-yellow-700)
+c("accent-focus", $p-blue-300, $p-blue-700)
+c("accent-error", $p-red-300)
 
-$color-yellow ?= #ffdd57
-$color-gold ?= #eebc41
+c("button-hover", alpha($p-black, 0.03), alpha($p-white, 0.05))
+c("button-primary", $p-blue-700)
+c("button-primary-hover", $p-blue-600)
+c("button-gray", $p-gray-100, $p-gray-850)
 
-$color-white ?= #ffffff
-$color-black ?= #000000
-
-$color-text ?= #40444a
-$color-text-quiet ?= #777
-$color-text-darkmode ?= #e1e3e5
-$color-text-quiet-darkmode ?= darken($color-text-darkmode, 20%)
-
-$color-border-light ?= #eee
-$color-border-medium ?= #ddd
-$color-border-medium-darkmode ?= alpha($color-white, 15%)
-
-$color-focus-blue ?= #0d7cc8
-$color-button-cta ?= $color-blue
-
-$color-link ?= $color-text-blue
-$color-link-darkmode ?= $color-text-blue-darkmode
-
-$color-link-visited ?= spin(desaturate($color-link, 15%), 10deg)
-$color-link-visited-darkmode ?= lighten(spin($color-link-darkmode, 10deg), 15%)
-
-@import "shared/colors-ui.styl"
-
-/*
-SIZES
- */
-$border-radius ?= 4px
-
-$height-input ?= 40px
-$height-input-small ?= 34px
-
-
-/*
-TYPOGRAPHY
- */
-$font-sans ?= "Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-
-$font-weight-sans-regular ?= 400
-$font-weight-sans-medium ?= 500
-$font-weight-sans-bold ?= 600
-
-$line-height-base ?= 1.5
-$font-size-base ?= 16px
-$font-sizes-ratio ?= 1.333
-
-font-size-ratio(level)
-  max(13px, round($font-size-base * ($font-sizes-ratio ** level)))
-
-$font-size-small ?= font-size-ratio(-1)
-$font-size-normal ?= font-size-ratio(0)
-$font-size-large-1 ?= font-size-ratio(1)
-$font-size-large-2 ?= font-size-ratio(2)
-$font-size-large-3 ?= font-size-ratio(3)
-$font-size-large-4 ?= font-size-ratio(4)
-$font-size-large-5 ?= font-size-ratio(5)
-
-tracking(fontSize)
-  letter-spacing round(-0.017+(0.202*(2.71828**(-0.175*fontSize))), 3)em
-
-lineHeightRounded(fontSize, lineHeight)
-  line-height round(lineHeight * fontSize)px
-
-leading(fontSize)
-  lineHeightRounded(fontSize, $line-height-base - (fontSize - $font-size-normal) * .009)
-
-font-sans(size, weight=$font-weight-sans-regular)
-  font-size size*1px
-  tracking(size)
-  leading(size)
-  font-weight weight
-
-font-sans-no-weight(size)
-  font-size size*1px
-  tracking(size)
-  leading(size)
+c("background-tooltip", alpha($p-black, 0.9))
+c("background-toast", alpha($p-black, 0.8), alpha($p-black, 0.9))
 
 /*
 SPACING
  */
+v("s-none", 0)
+v("s-xxs", 2px)
+v("s-xs", 4px)
+v("s-sm", 8px)
+v("s-md", 16px)
+v("s-lg", 32px)
+v("s-xl", 64px)
+v("s-xxl", 128px)
 
-$spacing-base ?= round($font-size-base * $line-height-base)
-
-$space-extra-tiny ?= round($spacing-base / 8px)
-$space-tiny ?= round($spacing-base / 4px)
-$space-small ?= round($spacing-base / 2px)
-$space-medium ?= $spacing-base
-$space-large ?= round($spacing-base * 2px)
-$space-huge ?= round($spacing-base * 4px)
-
-$container-tiny ?=  $space-medium * 10
-$container-small ?=  $space-medium * 20
-$container-medium ?=  $space-medium * 30
-$container-large ?=  $space-medium * 40
-$container-huge ?=  $space-medium * 60
+v("container-xs", 380px)
+v("container-sm", 540px)
+v("container-md", 720px)
+v("container-lg", 960px)
+v("container-xl", 1140px)
+v("container-xxl", 1320px)
 
 /*
-MIXINS
+TYPOGRAPHY
+ */
+v("t-family", unquote('BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'))
+
+v("t-weight-light", 300)
+v("t-weight-regular", 400)
+v("t-weight-medium", 500)
+v("t-weight-bold", 700)
+
+v("t-line-height-base", 1.5)
+v("t-size-base", 16px)
+
+_$t-ratio = 1.333
+v("t-size-xxs", "calc(max(%s * %s, 14px))" % ($t-size-base (_$t-ratio ** -1)))
+v("t-size-xs", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 0)))
+v("t-size-sm", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 1)))
+v("t-size-md", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 2)))
+v("t-size-lg", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 3)))
+v("t-size-xl", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 4)))
+v("t-size-xxl", "calc(%s * %s)" % ($t-size-base (_$t-ratio ** 5)))
+
+v("t-letter-spacing-xxs", 0.02em)
+v("t-letter-spacing-xs", 0.01em)
+v("t-letter-spacing-sm", 0em)
+v("t-letter-spacing-md", -0.01em)
+v("t-letter-spacing-lg", -0.01em)
+v("t-letter-spacing-xl", -0.02em)
+v("t-letter-spacing-xxl", -0.02em)
+
+v("t-line-height-xxs", "calc(%s * 1.1)" % $t-line-height-base)
+v("t-line-height-xs", "calc(%s * 1)" % $t-line-height-base)
+v("t-line-height-sm", "calc(%s * 1)" % $t-line-height-base)
+v("t-line-height-md", "calc(%s * 1)" % $t-line-height-base)
+v("t-line-height-lg", "calc(%s * 0.9)" % $t-line-height-base)
+v("t-line-height-xl", "calc(%s * 0.8)" % $t-line-height-base)
+v("t-line-height-xxl", "calc(%s * 0.8)" % $t-line-height-base)
+
+/*
+INPUTS
  */
 
 control-fullwidth()
   display flex
   width 100%
 
+_$input-height = 42px
+_$input-height-small = 34px
+
 control-small()
-  height $height-input-small
+  height _$input-height-small
 
 control()
   -webkit-touch-callout none
@@ -137,20 +116,15 @@ control()
   position relative
   vertical-align top
 
-  height $height-input
+  height _$input-height
   padding 0 12px
-  border none
-  border-radius $border-radius
+  border-radius $s-sm
+  border 1px solid $c-border-medium
 
-  font-family $font-sans
-  font-sans($font-size-normal)
+  color $c-text
+  background $c-background-raised
+  font-family $t-family
   text-decoration none
-
-  box-shadow inset 0 0 0 1px $color-border-medium
-  transition box-shadow 100ms
-
-  .darkMode &
-    box-shadow inset 0 0 0 1px $color-border-medium-darkmode
 
   &:focus,
   &:active
@@ -159,14 +133,10 @@ control()
   &[disabled]
     pointer-events none
 
-  &:active:not([disabled])
-    box-shadow inset 0 0 0 2px alpha($color-focus-blue, 50%) !important
-
-  &:hover
-    box-shadow inset 0 0 0 1px alpha($color-focus-blue, 50%) !important
-
+  &:active:not([disabled]),
   &:focus:not(:active)
-    box-shadow inset 0 0 0 2px $color-focus-blue !important
+    border-color $c-accent-focus
+    box-shadow 0 0 2px $c-accent-focus
 
   &.fullwidth
     control-fullwidth()

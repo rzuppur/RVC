@@ -1,72 +1,57 @@
 {
   "name": "@rzuppur/rvc",
-  "version": "0.48.1",
+  "version": "0.49.0",
   "author": "Reino Zuppur",
+  "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
-    "demo": "vue-cli-service demo App.vue",
-    "demo:build": "vue-cli-service demo --mode build App.vue",
-    "docs:build": "pug -p docs < README.pug > README.md",
-    "build": "yarn run docs:build && vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "prepublishOnly": "yarn run build",
-    "start": "yarn run demo"
+    "dev": "vite",
+    "build:demo": "vite build",
+    "build:docs": "pug -p docs < README.pug > README.md",
+    "build": "yarn run build:docs && rimraf dist/ && rollup -c",
+    "prepublishOnly": "yarn run build"
   },
-  "main": "dist/rvc.common.js",
-  "module": "dist/rvc.esm.js",
-  "unpkg": "dist/rvc.umd.min.js",
-  "files": [
-    "dist/rvc.common.js",
-    "dist/rvc.umd.min.js",
-    "dist/rvc.umd.js",
-    "dist/rvc.esm.js",
-    "src",
-    "types/index.d.ts"
-  ],
-  "dependencies": {
-    "core-js": "^2.6.5",
-    "portal-vue": "^2.1.6",
-    "resize-observer-polyfill": "^1.5.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-plugin-typescript": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "@vue/eslint-config-airbnb": "^4.0.0",
-    "@vue/eslint-config-typescript": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.0",
-    "eslint-plugin-vue": "^5.2.3",
-    "jstransformer-markdown-it": "^2.1.0",
-    "pug-cli": "^1.0.0-alpha6",
-    "stylus": "0.54.8",
-    "stylus-loader": "^3.0.2",
-    "typescript": "^3.6.3",
-    "vue": "^2.6.10",
-    "vue-cli-plugin-p11n": "^0.4.0",
-    "vue-cli-plugin-pug": "^1.0.7",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "jsdelivr": "dist/rvc.umd.min.js",
-  "sideeffects": false,
-  "types": "types/index.d.ts",
-  "directories": {
-    "doc": "docs",
-    "example": "demo"
-  },
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rzuppur/rvc.git"
   },
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "resize-observer-polyfill": "^1.5.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.1.2",
+    "@vitejs/plugin-vue": "^2.0.0",
+    "@vue/compiler-sfc": "^3.2.26",
+    "jstransformer-markdown-it": "^2.1.0",
+    "pug": "^3.0.2",
+    "pug-cli": "^1.0.0-alpha6",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-alias": "^2.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-ts": "^2.0.5",
+    "rollup-plugin-vue": "^6.0.0",
+    "stylus": "^0.55.0",
+    "stylus-loader": "^3.0.2",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.10",
+    "vue": "^3.2.26"
+  },
+  "sideeffects": false,
   "keywords": [
     "vue",
+    "vue3",
     "vuejs",
     "components",
     "ui"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rzuppur/rvc/issues"
-  },
-  "homepage": "https://github.com/rzuppur/rvc#readme"
+  ]
 }

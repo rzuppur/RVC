@@ -1,46 +1,29 @@
-# Reino Vue Components
+# RVC
+
+User interface components and styles for Vue 3
+
 ![npm version](https://img.shields.io/npm/v/@rzuppur/rvc)
 ![Licence](https://img.shields.io/npm/l/@rzuppur/rvc)
 ![Netlify demo build](https://img.shields.io/netlify/0f67bc1f-5af9-4c5a-ad7d-25c4e7ecdc00?label=demo%20build)
 
 [View demo & docs](https://rvc-demo.netlify.com/)
-<br>
-[Install](#install)
 
 <br>
 
-### Modal
-```html
-<r-modal
-  title: string | false
-  blocking: boolean // optional
-  buttons: boolean // optional, set to false to hide bottom bar with buttons
-  size: string  // optional, ("small" | "medium" | "large" | "huge" | "maximum")
->
-  {{ modal content }}
-  <template v-slot:buttons>
-    {{ r-buttons }}
-  </template>
-</r-modal>
-```
+### Install
+`yarn add @rzuppur/rvc` or `npm install --save @rzuppur/rvc`
 
-Confirmation modal
-```javascript
-const result = await this.$root.rModalConfirm(
-  "Question",
-  "Confirm text", // optional
-  "Cancel text", // optional
-  "Description text", // optional
-);
+```typescript
+import { createApp } from "vue";
+import rvc from "@rzuppur/rvc";
+import App from "./App.vue";
+
+const testApp = createApp(App);
+testApp.use(rvc);
+
+testApp.mount("#app");
 ```
-### Tooltip
-Tooltip directive `v-rtip`. Supports top (default), bottom, left and right alignment: `v-rtip.bottom`, `v-rtip.left`, `v-rtip.right`.
-```html
-<div
-  v-rtip="'Tooltip text'"
-></div>
-```
-### Button
+### Buttons
 Every property listed is optional. If button contains no childs but has an icon, it will be shown as an icon button (width equal to height).
 ```html
   <r-button
@@ -57,7 +40,7 @@ Every property listed is optional. If button contains no childs but has an icon,
     label: string  // aria-label, for icon only buttons
     icon: string  // One of valid r-icon icons
     icon-right: boolean  // default false
-    icon-color: string  // ("gray" | "green" | "red" | "blue" | "link" | "white")
+    icon-color: string  // ("gray" | "green" | "red" | "blue" | "gold" | "white")
   >
     {{ text }}
   </r-button>
@@ -74,155 +57,193 @@ Grouped buttons
   </div>
 </div>
 ```
-### Icon
-Material or modified material icons as 24x24px svg.
-```html
-<r-icon
-  icon: string
-  icon-color: string  // ("gray" | "green" | "red" | "blue" | "link" | "white")
-/>
-```
-### Toast notification
-From any component, call `this.$rNotifyToast("message");`. Auto-hide timer is based on text length and paused if window is not currently visible.
-### Dark mode
-Add class `darkMode` to any parent element.
 ### Containers
-Container sizes: `r-container-tiny`, `r-container-small`, `r-container-medium`, `r-container-large`, `r-container-huge`, `r-container-maximum`
-
-For basic content container use class `r-container` and `r-container-{size}`.
-
-For columns, use `r-container-row` on parent and if you want your row to have a maximum width add `r-container-{size}`.
-Use `r-container-column` for columns and add `r-container-{size}` to limit column size.
-
-Add `r-columns-mobile-{small|medium|large}` to `r-container-row` to specify the breakpoint when columns should switch to block layout.
-
-
-```html
-<div class="r-container r-container-{tiny|small|medium|large|huge|maximum}"></div>
-
-<div class="r-container-row r-container-{tiny|small|medium|large|huge|maximum} r-columns-mobile-{small|medium|large}">
-  <div class="r-container-column r-container-{tiny|small|medium|large|huge|maximum}"></div>
-  <div class="r-container-column r-container-{tiny|small|medium|large|huge|maximum}"></div>
-  <div class="r-container-column r-container-{tiny|small|medium|large|huge|maximum}"></div>
-</div>
-```
-### Typography
-Semantic heading level and visual style is separated — headings are all reset to normal text. Use `r-title-N` for visually styling them.
-
-Default font stack is `"Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"` but Inter is not imported, if you want to use it instead of OS default fonts you have to add `@import url('https://rsms.me/inter/inter.css')` to your css.
-
-You can override the font and weights using stylus variables. Font size and ratio affects spacing, this can be overridden using `$spacing-base`.
-- `$font-sans` font stack
-- `$font-weight-sans-regular` default 400
-- `$font-weight-sans-medium` default 500
-- `$font-weight-sans-bold` default 600
-- `$line-height-base` default 1.5
-- `$font-size-base` default 16px
-- `$font-sizes-ratio` default 1.333, used for generating heading sizes
-
-Text style classes:
-
-**Weight:** 
-`r-text-regular`, `r-text-medium`, `r-text-bold`
-
-**Color:** 
-`r-text-color-body`, `r-text-color-quiet`, `r-text-color-error`
-
-**Size:** 
-`r-text-small`, `r-title-1`, `r-title-2`, `r-title-3`, `r-title-4`, `r-title-5`, `r-title-6`, `r-title-caps`
-
-**Alignment:** 
-`r-text-left`, `r-text-center`, `r-text-right`
-
-**Overflow:**
-`r-ellipsis`### Tabs
-Basic tabs component.
-```html
-<r-tabs
-  extendLine: boolean  // Adds negative margin to the line between tabs and content, useful for top navigation tabs
-  line: boolean  // Used to hide the line between tabs and content, this also removes any margin between tabs and content
->
-  <r-tab-content
-    name: string  // REQUIRED
-    icon: string  // optional r-icon
-  ></r-tab-content>
-</r-tabs>
-```
-### Form
-Bind value with v-model. Same props (except _type_) apply for `r-text-input` and `r-text-input-area`
+Containers for assigning a maximum width to content and adding a padding to sides.
+- `r-container-xs`
+- `r-container-sm`
+- `r-container-md`
+- `r-container-lg`
+- `r-container-xl`
+- `r-container-fill`
+### Forms
+Bind value with v-model. Same props (except _type_) apply for `r-text-input` and `r-text-area`
 
 ```html
 <div class="r-form-group">
   <r-text-input
     label: string
     placeholder: string
-    helper-text: string
-    invalid-message: string // setting this will mark the field as invalid
+    help: string
+    error: string // setting this will mark the field as invalid
     type: string // default "text"
     fullwidth: boolean  // default true
   >
   </r-text-input>
 </div>
 ```
-### Sheets
-`r-elevation-{0-4}` to add text and background color that changes with dark mode. For example, main content area and sidebar/header.
-
-`r-border-radius` add default border radius
-
-`r-border-radius-double` add default * 2 border radius
-### Other
-`r-{"margin" | "padding"}-{direction}-{size}` apply margin/padding to element
-- direction: `top` `bottom` `left` `right`
-- size: `huge` `large` `medium` `small` `tiny` `none`
-
-`r-media-hide-{"small" | "medium" | "large"}` and `r-media-show-{"small" | "medium" | "large"}` to show/hide some items on small/medium/wide screens.
-
-`r-flex-container` display flex, direction row
-
-`r-flex-container-column` flex direction column
-
-`r-flex-items-{"start" | "center" | "end"}` align flex childs
-
-`r-flex-{0-3}` flex child grow and shrink value
-
-`r-clearfix` clearfix
-
-`r-styled-scrollbar` custom scrollbar style
-<br/><br/>
-
-## Usage
-### Install
-`yarn add @rzuppur/rvc` or `npm install --save @rzuppur/rvc`
-
-```javascript
-import Vue from "vue";
-import rvc from "@rzuppur/rvc";
-import "@rzuppur/rvc/src/styles/main.styl";
-
-Vue.use(rvc);
+### Icons
+Material or modified material icons as 24x24px svg.
+```html
+<r-icon
+  icon: string
+  class?: "gray" | "green" | "red" | "blue" | "white"
+/>
+```
+### Modal
+```html
+<r-modal
+  title: string | false
+  blocking: boolean // optional
+  buttons: boolean // optional, set to false to hide bottom bar with buttons
+  size: string  // optional, ("xs" | "sm" | "md" | "xl" | "xxl" | "fill")
+>
+  {{ modal content }}
+  <template v-slot:buttons>
+    {{ r-buttons }}
+  </template>
+</r-modal>
 ```
 
-To customize [Stylus](http://stylus-lang.com/) variables, import `main.styl` in your app styles instead and override values before the import. [View variables that can be themed here](https://github.com/rzuppur/rvc/blob/master/src/styles/shared.styl).
+Confirmation modal
+```typescript
+import { useModalConfirm } from "@rzuppur/rvc";
+const confirmModal = useModalConfirm();
+const confirmed: boolean = await confirmModal(
+    "Question",
+    "Yes text", // optional
+    "No text", // optional
+    "Description text", // optional
+);
+```
+### Theming
+You can customize colors, spacing and fonts using CSS variables.
+Some variables and their default values are shown here, see source code for others.
 
-```stylus
-/* CUSTOMIZE VARIABLES HERE */
-$color-text = green
-
-/* IMPORT RVC MAIN.STYL HERE */
-@import "../node_modules/@rzuppur/rvc/src/styles/main.styl"
-```
-## Dev
-### Project setup
-```
-yarn install
+**Typography**
+```css
+:root {
+    --t-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --t-size-base: 16px;
+}
 ```
 
-### Compiles and hot-reloads for development
+**Colors**
+```css
+:root {
+    --c-background: #f4f4f4;
+    --c-background-raised: #ffffff;
+    --c-text: #212121;
+    --c-text-muted: #616161;
+}
+html.darkMode {
+    --c-background: #171717;
+    --c-background-raised: #212121;
+    --c-text: #bdbdbd;
+    --c-text-muted: #9e9e9e;
+}
 ```
-yarn run demo
+**Sizes**
+```css
+:root {
+    --s-xxs: 2px;
+    --s-xs: 4px;
+    --s-sm: 8px;
+    --s-md: 16px;
+    --s-lg: 32px;
+    --s-xl: 64px;
+    --s-xxl: 128px;
+}
 ```
 
-### Compiles and minifies for production
+**Containers**
+```css
+:root {
+    --container-xs: 380px;
+    --container-sm: 540px;
+    --container-md: 720px;
+    --container-lg: 960px;
+    --container-xl: 1140px;
+    --container-xxl: 1320px;
+}
 ```
-yarn run build
+NB! Media query utility classes (`r-media-hide-under-{size}`, `r-media-hide-over-{size}`) use these static values since CSS variables can not be used for a media query.### Toast notification
+```typescript
+import { useToast } from "@rzuppur/rvc";
+
+const toast = useToast();
+toast("message");
 ```
+### Tooltip
+A basic tooltip directive `v-r-tip`. Supports top (default), bottom, left and right alignment: `v-r-tip.bottom`, `v-r-tip.left`, `v-r-tip.right`.
+```html
+<div
+  v-r-tip="'Tooltip text'"
+></div>
+```
+### Typography
+Font size, letter spacing, line height
+
+- `r-text-{size}`
+- `r-text-size-{size}`
+- `r-text-letter-spacing-{size}`
+- `r-text-line-height-{size}`
+
+Weight
+
+- `r-text-light`
+- `r-text-regular`
+- `r-text-medium`
+- `r-text-bold`
+
+Color
+- `r-text-color-regular`
+- `r-text-color-muted`
+- `r-text-color-red`
+
+Alignment 
+- `r-text-left`
+- `r-text-center`
+- `r-text-right`
+
+Overflow
+- `r-ellipsis`
+
+Spacing
+- All adjacent `p`, `ul`, `ol`, `pre`, `.r-space` have a margin added between them.
+### Utilities
+Add background color
+- `r-background`
+
+Add raised background color (cards, for example)
+- `r-background-raised`
+
+Border radius, margin, padding `r-{type}-{size}`
+- Type:
+  - Border radius: `border-radius`
+  - Margin: `m`
+  - Padding: `p`
+- Size: `xxs` to `xxl`
+
+Margin and padding can also be used with direction `r-{type}-{direction}-{size}`
+- Direction: `t` `b` `l` `r` (top, bottom, left, right)
+
+Hide under viewport size (`xs` to `xxl`)
+- `r-media-hide-under-{size}`
+
+Hide over viewport size (`xs` to `xxl`)
+- `r-media-hide-over-{size}`
+
+Apply display flex, direction row
+- `r-flex-container`
+
+Apply flex direction column
+- `r-flex-container-column`
+
+Align flex childs
+- `r-flex-items-{"start" | "center" | "end"}`
+
+Flex child grow and shrink value
+- `r-flex-{0-3}`
+
+Clearfix
+- `r-clearfix`

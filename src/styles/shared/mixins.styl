@@ -1,0 +1,30 @@
+c(name, lightValue, darkValue = lightValue)
+  // "$c-name" creates a reference to dynamic css variable that responds to dark/light mode at runtime
+  define("$c-" + name, var(unquote("--c-" + name)), true)
+
+  // "_$c-name" has a static light mode value for doing calculations during Stylus build
+  define("_$c-" + name, lightValue, true)
+
+  // "_$c-name-darkmode" has a static dark mode value for doing calculations during Stylus build
+  define("_$c-" + name + "-darkmode", darkValue, true)
+
+  :root
+    {unquote("--c-" + name)}: lightValue
+
+  html.darkMode
+    {unquote("--c-" + name)}: darkValue
+
+v(name, value)
+  // "$name" creates a reference to dynamic css variable
+  define("$" + name, var(unquote("--" + name)), true)
+
+  // "_$name" has a static value for doing calculations during Stylus build
+  define("_$" + name, value, true)
+
+  :root
+    {unquote("--" + name)}: value
+
+
+darkMode()
+  html.darkMode &
+    {block}

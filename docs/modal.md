@@ -3,7 +3,7 @@
   title: string | false
   blocking: boolean // optional
   buttons: boolean // optional, set to false to hide bottom bar with buttons
-  size: string  // optional, ("small" | "medium" | "large" | "huge" | "maximum")
+  size: string  // optional, ("xs" | "sm" | "md" | "xl" | "xxl" | "fill")
 >
   {{ modal content }}
   <template v-slot:buttons>
@@ -13,11 +13,13 @@
 ```
 
 Confirmation modal
-```javascript
-const result = await this.$root.rModalConfirm(
-  "Question",
-  "Confirm text", // optional
-  "Cancel text", // optional
-  "Description text", // optional
+```typescript
+import { useModalConfirm } from "@rzuppur/rvc";
+const confirmModal = useModalConfirm();
+const confirmed: boolean = await confirmModal(
+    "Question",
+    "Yes text", // optional
+    "No text", // optional
+    "Description text", // optional
 );
 ```

@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>RVC Demo</title>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <meta name="msapplication-tap-highlight" content="no">
+  <style>[v-cloak] { display: none; }</style>
+  <title>RVC Demo</title>
+  <script>const mql = window.matchMedia("(prefers-color-scheme: dark)"),darkModePref = localStorage.getItem("darkmode");null === darkModePref ? mql.matches && document.documentElement.classList.add("darkMode") : "false" !== darkModePref && document.documentElement.classList.add("darkMode")</script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module" src="/main.ts"></script>
+</body>
 </html>

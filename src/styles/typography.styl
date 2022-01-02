@@ -1,114 +1,54 @@
 body
-  font-family $font-sans
-  line-height $line-height-base
+  font-family $t-family
+  line-height $t-line-height-base
   word-break break-word
-  color $color-text
-  font-feature-settings: "calt" 1
+
+for size in "xxs" "xs" "sm" "md" "lg" "xl" "xxl"
+  .r-text-size-{size}
+    font-size lookup("$t-size-" + size)
+
+  .r-text-letter-spacing-{size}
+    letter-spacing lookup("$t-letter-spacing-" + size)
+
+  .r-text-line-height-{size}
+    line-height lookup("$t-line-height-" + size)
+
+  .r-text-{size}
+    letter-spacing lookup("$t-letter-spacing-" + size)
+    font-size lookup("$t-size-" + size)
+    line-height lookup("$t-line-height-" + size)
+
+for weight in "light" "regular" "medium" "bold"
+  .r-text-{weight}
+    font-weight lookup("$t-weight-" + weight)
 
 b,
 strong
-  font-weight $font-weight-sans-bold
+  font-weight $t-weight-bold
 
-
-/*
-DEFAULT BOTTOM MARGINS
- */
-
-p,
-pre
-  &:not(:last-child)
-    margin-bottom $space-medium
-
-/*
-TEXT
- */
-
-p
-  font-sans($font-size-normal)
+// Defaulting to css, a bug somewhere is removing half of the selectors when using stylus
+@css {
+  :is(h1, h2, h3, h4, h5, h6, p, ul, ol, pre, .r-space) + :is(p, ul, ol, pre, .r-space) {
+    margin-top: var(--s-md);
+  }
+}
 
 a
   text-underline-position under
-  color $color-link
+  color $c-text-blue
   cursor pointer
 
   &:visited
-    color $color-link-visited
+    color $c-text-purple
 
-  .darkMode &
-    color $color-link-darkmode
+.r-text-color-regular
+  color $c-text
 
-    &:visited
-      color $color-link-visited-darkmode
+.r-text-color-muted
+  color $c-text-muted
 
-/*
-TITLES
- */
-
-for i in "1" "2" "3" "4" "5" "6" "caps"
-  .r-title-{i}
-    word-wrap break-word
-    margin-bottom $space-small
-
-    &:not(:first-child)
-      margin-top $space-large
-
-.r-title-1
-  font-sans($font-size-large-5)
-
-.r-title-2
-  font-sans($font-size-large-4)
-
-.r-title-3
-  font-sans($font-size-large-3)
-
-.r-title-4
-  font-sans($font-size-large-2)
-
-.r-title-5
-  font-sans($font-size-large-1)
-
-.r-title-6
-  font-sans($font-size-normal, $font-weight-sans-bold)
-
-.r-title-caps
-  font-sans($font-size-small, $font-weight-sans-bold)
-  text-transform uppercase
-  letter-spacing 0.1em
-
-
-/*
-UTILITY
- */
-
-.r-text-regular
-  font-weight $font-weight-sans-regular
-
-.r-text-medium
-  font-weight $font-weight-sans-medium
-
-.r-text-bold
-  font-weight $font-weight-sans-bold
-
-.r-text-color-body
-  color $color-text
-
-  .darkMode &
-    color $color-text-darkmode
-
-.r-text-color-quiet
-  color $color-text-quiet
-
-  .darkMode &
-    color $color-text-quiet-darkmode
-
-.r-text-color-error
-  color $color-text-red
-
-  .darkMode &
-    color $color-text-red-darkmode
-
-.r-text-small
-  font-sans-no-weight($font-size-small)
+.r-text-color-red
+  color $c-text-red
 
 .r-text-left
   text-align left
@@ -124,18 +64,23 @@ UTILITY
   overflow hidden
   text-overflow ellipsis
 
-/*
-OTHER
- */
-
 hr
   height 2px
   border none
   outline none
-  margin $font-size-normal 0
   padding 0
   box-shadow none
-  background alpha($color-black, 4%)
+  background $c-border-medium
 
-  .darkMode &
-    background alpha($color-white, 8%)
+pre, code:not([class])
+  padding $s-xxs $s-sm
+  border-radius $s-sm
+  border 2px solid $c-border-light
+
+pre
+  padding $s-md
+  overflow-x auto
+
+ul,
+ol
+  padding-left $s-lg

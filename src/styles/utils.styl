@@ -1,103 +1,39 @@
-/*
-SPACING
- */
+.r-background
+  background $c-background
 
-for type in "margin" "padding"
-  .r-{type}-none
-    {type} 0 !important
+.r-background-raised
+  background $c-background-raised
 
-  for size in "huge" "large" "medium" "small" "tiny"
-    .r-{type}-{size}[class]
-      {type} lookup("$space-" + size)
+for size in "none" "xxs" "xs" "sm" "md" "lg" "xl" "xxl"
+  .r-border-radius-{size}[class]
+    border-radius lookup("$s-" + size)
 
+  for type in "margin" "padding"
+    // .r-m-sm
+    .r-{substr(type, 0, 1)}-{size}[class]
+      {type} lookup("$s-" + size)
+
+    // .r-m-t-sm
     for direction in "top" "bottom" "left" "right"
-      .r-{type}-{direction}-{size}[class]
-        {type}-{direction} lookup("$space-" + size)
+      .r-{substr(type, 0, 1)}-{substr(direction, 0, 1)}-{size}[class]
+        {type}-{direction} lookup("$s-" + size)
 
-  for direction in "top" "bottom" "left" "right"
-    .r-{type}-{direction}-none
-      {type}-{direction} 0 !important
+.r-clearfix:before,
+.r-clearfix:after
+  content " "
+  display table
 
+.r-clearfix:after
+  clear both
 
-/*
-FULL HEIGHT
- */
+for size in "xs" "sm" "md" "lg" "xl" "xxl"
+  &.r-media-hide-under-{size}[class]
+    @media (max-width lookup("_$container-" + size))
+      display none
 
-.r-fill-absolute-parent
-  position relative
-
-  & > .r-fill-absolute
-    position absolute
-    top 0
-    bottom 0
-    left 0
-    right 0
-
-/*
-CONTAINERS
- */
-
-.r-container
-  margin-left auto
-  margin-right auto
-  padding-left $space-medium
-  padding-right $space-medium
-
-for size in "huge" "large" "medium" "small" "tiny"
-  .r-container-{size}
-    max-width lookup("$container-" + size)
-
-.r-container-maximum
-  max-width none
-
-.r-container-row
-  display flex
-  flex-direction row
-  margin-left auto
-  margin-right auto
-  overflow-x auto
-
-  & > .r-container-column
-    flex-grow 0
-    flex-shrink 1
-    min-width $container-tiny - $space-medium
-    max-width none
-    padding-left $space-medium
-    padding-right $space-medium
-
-  for size in "huge" "large" "medium" "small" "tiny"
-    & > .r-container-{size}
-      flex-basis lookup("$container-" + size)
-
-  & > .r-container-maximum
-    flex-grow 1
-    flex-basis 100%
-
-  for size in "large" "medium" "small"
-    &.r-columns-mobile-{size}
-      @media (max-width lookup("$container-" + size))
-        display flex
-        flex-direction column
-        position static
-
-        &.r-columns-mobile-reverse
-          flex-direction column-reverse
-
-        & > .r-container-column
-          flex-basis auto
-          max-width none
-          min-width 0
-
-
-  &.r-fill-absolute
-    & > .r-container-column
-      overflow-y auto
-      -webkit-overflow-scrolling touch
-
-
-/*
-FLEX
- */
+  &.r-media-hide-over-{size}[class]
+    @media (min-width (lookup("_$container-" + size) + 0.1px))
+      display none
 
 .r-flex-container
   display flex
@@ -118,28 +54,3 @@ FLEX
 for n in 0 1 2 3
   .r-flex-{n}
     flex n n auto
-
-/*
-CLEARFIX
- */
-
-.r-clearfix:before,
-.r-clearfix:after
-    content " "
-    display table
-
-.r-clearfix:after
-    clear both
-
-/*
-MEDIA
- */
-for size in "large" "medium" "small"
-
-  &.r-media-hide-{size}[class]
-    @media (max-width lookup("$container-" + size))
-      display none
-
-  &.r-media-show-{size}[class]
-    @media (min-width (lookup("$container-" + size) + 1px))
-      display none
