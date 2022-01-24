@@ -5,18 +5,18 @@
   background $c-background-raised
 
 for size in "none" "xxs" "xs" "sm" "md" "lg" "xl" "xxl"
-  .r-border-radius-{size}[class]
-    border-radius lookup("$s-" + size)
+  .r-border-radius-{size}
+    border-radius lookup("$s-" + size) !important
 
   for type in "margin" "padding"
     // .r-m-sm
-    .r-{substr(type, 0, 1)}-{size}[class]
-      {type} lookup("$s-" + size)
+    .r-{substr(type, 0, 1)}-{size}
+      {type} lookup("$s-" + size) !important
 
     // .r-m-t-sm
     for direction in "top" "bottom" "left" "right"
-      .r-{substr(type, 0, 1)}-{substr(direction, 0, 1)}-{size}[class]
-        {type}-{direction} lookup("$s-" + size)
+      .r-{substr(type, 0, 1)}-{substr(direction, 0, 1)}-{size}
+        {type}-{direction} lookup("$s-" + size) !important
 
 .r-clearfix:before,
 .r-clearfix:after
@@ -27,13 +27,13 @@ for size in "none" "xxs" "xs" "sm" "md" "lg" "xl" "xxl"
   clear both
 
 for size in "xs" "sm" "md" "lg" "xl" "xxl"
-  &.r-media-hide-under-{size}[class]
+  &.r-media-hide-under-{size}
     @media (max-width lookup("_$container-" + size))
-      display none
+      display none !important
 
-  &.r-media-hide-over-{size}[class]
+  &.r-media-hide-over-{size}
     @media (min-width (lookup("_$container-" + size) + 0.1px))
-      display none
+      display none !important
 
 .r-flex-container
   display flex
