@@ -68,6 +68,7 @@ notify.value = (message: string) => {
   user-select none
   background $c-background-toast
   color $c-text-white
+  font-weight $t-weight-medium
   padding $s-md $s-lg
   border-radius $s-md
 

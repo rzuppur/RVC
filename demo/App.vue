@@ -202,7 +202,7 @@ const confirmModalDemo = async () => {
         form.r-flex-container.r-flex-items-end(@submit.prevent="() => { toast(testText) }")
           .r-flex-1
             r-text-area(v-model="testText" placeholder="Notification text")
-          r-button.r-m-l-sm(primary submit) Notify
+          r-button.r-m-l-sm.r-flex-0(primary submit) Notify
 
     .r-background-raised.r-m-b-md.r-border-radius-md#9
       .r-p-lg(v-pre)
