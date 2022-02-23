@@ -46,7 +46,6 @@ teleport(to="#rOverlayTarget")
                 r-button(:action="close") Close
 
 </template>
-
 <script>
 
 import ResizeObserver from "resize-observer-polyfill";
@@ -148,7 +147,6 @@ export default {
 };
 
 </script>
-
 <style lang="stylus">
 
 @require "../styles/shared.styl"

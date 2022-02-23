@@ -11,7 +11,6 @@ r-modal(v-if="promiseResolve" :title="question" ref="confirmModal" @close="no")
     r-button(:action="no") {{ noText }}
 
 </template>
-
 <script>
 
 import Modal from "./Modal.vue";

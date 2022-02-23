@@ -38,6 +38,7 @@ Icon
 
 </template>
 <style lang="stylus">
+
 @require "../styles/shared.styl"
 
 .r-icon
