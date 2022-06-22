@@ -67,7 +67,7 @@ var TooltipDirectiveOptions = {
     }
 };
 
-/*! *****************************************************************************
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -203,6 +203,7 @@ const ICONS = {
 };
 
 var script$7 = defineComponent({
+    __name: 'Icon',
     props: {
         icon: {
             type: String,
@@ -242,6 +243,7 @@ styleInject(css_248z$4);
 script$7.__file = "src/components/Icon.vue";
 
 var script$6 = defineComponent({
+    __name: 'Button',
     props: {
         action: Function,
         actionWithModifier: Function,
@@ -341,7 +343,7 @@ var _hoisted_4$2 = {
 var __default__$1 = {
     inheritAttrs: false
 };
-var script$5 = defineComponent(__assign(__assign({}, __default__$1), { props: {
+var script$5 = defineComponent(__assign(__assign({}, __default__$1), { __name: 'TextInput', props: {
         label: String,
         placeholder: String,
         help: { type: String, "default": undefined },
@@ -399,7 +401,7 @@ var _hoisted_4$1 = {
 var __default__ = {
     inheritAttrs: false
 };
-var script$4 = defineComponent(__assign(__assign({}, __default__), { props: {
+var script$4 = defineComponent(__assign(__assign({}, __default__), { __name: 'TextArea', props: {
         label: String,
         placeholder: String,
         help: { type: String, "default": undefined },
@@ -1703,6 +1705,7 @@ script$2.__file = "src/components/ModalConfirm.vue";
 
 var _hoisted_1$1 = { "class": "r-text-xxs" };
 var script$1 = defineComponent({
+    __name: 'Tooltips',
     setup: function (__props) {
         var tooltipsWithLocation = ref([]);
         var keepAlive = new Map();
@@ -1783,6 +1786,7 @@ script$1.__file = "src/components/Tooltips.vue";
 var _hoisted_1 = { "class": "r-toast-list" };
 var _hoisted_2 = ["onClick"];
 var script = defineComponent({
+    __name: 'Toasts',
     setup: function (__props) {
         var MAX_SHOWN = 3;
         var index = ref(0);
