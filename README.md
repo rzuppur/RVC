@@ -170,7 +170,8 @@ html.darkMode {
     --container-xxl: 1320px;
 }
 ```
-NB! Media query utility classes (`r-media-hide-under-{size}`, `r-media-hide-over-{size}`) use these static values since CSS variables can not be used for a media query.### Toast notification
+NB! Media query utility classes (`r-media-hide-under-{size}`, `r-media-hide-over-{size}`) use these static values since CSS variables can not be used for a media query.
+### Toast notification
 ```typescript
 import { useToast } from "@rzuppur/rvc";
 
