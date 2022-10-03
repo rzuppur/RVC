@@ -1,4 +1,4 @@
-import { ref, defineComponent, useAttrs, openBlock, createBlock, h, useSlots, resolveComponent, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, mergeProps, unref, Teleport, createVNode, Transition, withCtx, withKeys, withModifiers, normalizeStyle, normalizeClass, renderSlot, Fragment, renderList, watchEffect, TransitionGroup, createApp, inject } from 'vue';
+import { ref, defineComponent, useAttrs, openBlock, createBlock, h, useSlots, resolveComponent, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, mergeProps, unref, onBeforeMount, computed, onMounted, onBeforeUnmount, resolveDynamicComponent, withCtx, createVNode, Transition, withKeys, withModifiers, normalizeStyle, normalizeClass, renderSlot, Teleport, nextTick, Fragment, renderList, watchEffect, TransitionGroup, createApp, inject } from 'vue';
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
@@ -93,6 +93,44 @@ var __assign = function() {
     return __assign.apply(this, arguments);
 };
 
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
 function __spreadArray(to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -149,6 +187,9 @@ const ICONS = {
 
   "play": "M8,5.14V19.14L19,12.14L8,5.14Z",
   "pause": "M14,19H18V5H14M6,19H10V5H6V19Z",
+  "playlist": "M15,6V8H3V6H15M15,10V12H3V10H15M3,16V14H11V16H3M17,6H22V8H19V17A3,3 0 0,1 16,20A3,3 0 0,1 13,17A3,3 0 0,1 16,14C16.35,14 16.69,14.07 17,14.18V6M16,16A1,1 0 0,0 15,17A1,1 0 0,0 16,18A1,1 0 0,0 17,17A1,1 0 0,0 16,16Z",
+  "folder": "M20,18H4V8H20M20,6H12L10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6Z",
+  "folder open": "M6.1,10L4,18V8H21A2,2 0 0,0 19,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H19C19.9,20 20.7,19.4 20.9,18.5L23.2,10H6.1M19,18H6L7.6,12H20.6L19,18Z",
   "power": "M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.36,6.88 4,9.28 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.28 18.64,6.88 16.56,5.44M13,3H11V13H13",
 
   "expand": "M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z",
@@ -168,6 +209,7 @@ const ICONS = {
   "arrow right": "M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z",
   "arrow max": "M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z",
   "arrow min": "M19.92,12.08L12,20L4.08,12.08L5.5,10.67L11,16.17V2H13V16.17L18.5,10.66L19.92,12.08M12,20H2V22H22V20H12Z",
+  "open in new": "M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z",
 
   "chevron down": "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z",
   "chevron up": "M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z",
@@ -1382,210 +1424,227 @@ var index$1 = (function () {
     return ResizeObserver;
 })();
 
-var script$3 = {
-  name: "Modal",
-  emits: ["close"],
-  props: {
-    title: {
-      default: "Modal title",
-      type: [String, Boolean],
-    },
-    blocking: {
-      default: false,
-      type: Boolean,
-    },
-    buttons: {
-      default: true,
-      type: Boolean,
-    },
-    size: {
-      default: "sm",
-      type: String,
-    },
-  },
-  data() {
-    return {
-      modalOpen: false,
-      contentScrolls: false,
-      showTopBorder: false,
-      showBottomBorder: false,
-    };
-  },
-  computed: {
-    myIndex() {
-      return modalsOpen.value.indexOf(this._id);
-    },
-    modalContainerClass() {
-      return `r-container-${this.size}`;
-    },
-    modalOverlayZIndex() {
-      return 10000 + modalsOpen.value.indexOf(this._id);
-    },
-    modalZIndex() {
-      return 10001 + modalsOpen.value.indexOf(this._id);
-    },
-  },
-  beforeCreate() {
-    this._id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-  },
-  mounted() {
-    this.contentObs = new index$1(() => {
-      this.checkContentScroll();
-    });
-  },
-  beforeDestroy() {
-    if (this.modalOpen) this.close();
-    if (this.contentObs) this.contentObs.disconnect();
-  },
-  methods: {
-    async open() {
-      const index = modalsOpen.value.indexOf(this._id);
-      if (index >= 0) modalsOpen.value.splice(index, 1);
-      modalsOpen.value.push(this._id);
-      this.modalOpen = true;
-      document.body.classList.add("r-modal-open");
-
-      await this.$nextTick();
-
-      if (this.$refs.modalContent) {
-        this.contentObs.observe(this.$refs.modalContent);
-      }
-    },
-    close() {
-      modalsOpen.value.splice(modalsOpen.value.indexOf(this._id), 1);
-      this.modalOpen = false;
-      this.$emit("close");
-      if (modalsOpen.value.length === 0) document.body.classList.remove("r-modal-open");
-    },
-    outsideClose() {
-      if (!this.blocking) this.close();
-    },
-    checkContentScroll() {
-      if (this.$refs.modalContent) {
-        const overflow = this.$refs.modalContent.scrollHeight - this.$refs.modalContent.clientHeight;
-        this.contentScrolls = overflow > 0;
-        this.updateScrollPosition();
-      }
-    },
-    updateScrollPosition() {
-      const content = this.$refs.modalContent;
-      if (content) {
-        this.showTopBorder = content.scrollTop > 4;
-        this.showBottomBorder = content.scrollTop < ( content.scrollHeight - content.offsetHeight - 5 );
-      }
-    },
-  },
+var _hoisted_1$3 = ["onKeyup"];
+var _hoisted_2$1 = ["aria-labelledby", "onKeydownCapture"];
+var _hoisted_3 = {
+    key: 0,
+    "class": "r-modal-header"
 };
-
-const _hoisted_1$3 = ["aria-labelledby"];
-const _hoisted_2$1 = {
-  key: 0,
-  class: "r-modal-header"
+var _hoisted_4 = ["id"];
+var _hoisted_5 = {
+    key: 1,
+    "class": "r-flex-0 r-modal-top-shadow"
 };
-const _hoisted_3 = ["id"];
-const _hoisted_4 = {
-  key: 1,
-  class: "r-flex-0 r-modal-top-shadow"
+var _hoisted_6 = { "class": "r-modal-content-inner" };
+var _hoisted_7 = {
+    key: 2,
+    "class": "r-flex-0 r-modal-bottom-shadow"
 };
-const _hoisted_5 = { class: "r-modal-content-inner" };
-const _hoisted_6 = {
-  key: 2,
-  class: "r-flex-0 r-modal-bottom-shadow"
+var _hoisted_8 = {
+    key: 3,
+    "class": "r-modal-buttons"
 };
-const _hoisted_7 = {
-  key: 3,
-  class: "r-modal-buttons"
-};
-const _hoisted_8 = { class: "r-buttons" };
-const _hoisted_9 = /*#__PURE__*/createTextVNode("Close");
-
-function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_r_button = resolveComponent("r-button");
-
-  return (openBlock(), createBlock(Teleport, { to: "#rOverlayTarget" }, [
-    createVNode(Transition, { name: "r-modal" }, {
-      default: withCtx(() => [
-        ($data.modalOpen)
-          ? (openBlock(), createElementBlock("div", {
-              key: 0,
-              class: "r-modal-overlay",
-              onClick: _cache[3] || (_cache[3] = (...args) => ($options.outsideClose && $options.outsideClose(...args))),
-              onKeyup: _cache[4] || (_cache[4] = withKeys(withModifiers((...args) => ($options.outsideClose && $options.outsideClose(...args)), ["stop"]), ["esc"])),
-              style: normalizeStyle({ 'z-index': $options.modalOverlayZIndex })
-            }, [
-              createElementVNode("div", {
-                class: normalizeClass(["r-modal-container", $options.modalContainerClass])
-              }, [
-                createElementVNode("div", {
-                  class: "r-modal",
-                  ref: "modal",
-                  role: "dialog",
-                  onClick: _cache[1] || (_cache[1] = withModifiers(() => {}, ["stop"])),
-                  "aria-labelledby": $props.title ? `dialog-title-${_ctx._id}` : null,
-                  onKeydownCapture: _cache[2] || (_cache[2] = withKeys((...args) => ($options.outsideClose && $options.outsideClose(...args)), ["esc"])),
-                  style: normalizeStyle({ 'z-index': $options.modalZIndex })
-                }, [
-                  ($props.title !== false)
-                    ? (openBlock(), createElementBlock("div", _hoisted_2$1, [
-                        createElementVNode("h1", {
-                          class: "r-modal-title r-text-md r-text-medium",
-                          id: `dialog-title-${_ctx._id}`
-                        }, toDisplayString($props.title), 9 /* TEXT, PROPS */, _hoisted_3),
-                        (!$props.blocking)
-                          ? (openBlock(), createBlock(_component_r_button, {
-                              key: 0,
-                              class: "r-modal-close",
-                              borderless: "borderless",
-                              action: $options.close,
-                              label: "Close dialog",
-                              icon: "close"
-                            }, null, 8 /* PROPS */, ["action"]))
-                          : createCommentVNode("v-if", true)
-                      ]))
-                    : createCommentVNode("v-if", true),
-                  ($data.showTopBorder)
-                    ? (openBlock(), createElementBlock("div", _hoisted_4))
-                    : createCommentVNode("v-if", true),
-                  createElementVNode("div", {
-                    class: normalizeClass(["r-modal-content", { 'r-modal-content-scroll': $data.contentScrolls, 'no-buttons': !$props.buttons }]),
-                    onScrollPassive: _cache[0] || (_cache[0] = (...args) => ($options.updateScrollPosition && $options.updateScrollPosition(...args))),
-                    ref: "modalContent"
-                  }, [
-                    createElementVNode("div", _hoisted_5, [
-                      renderSlot(_ctx.$slots, "default")
-                    ])
-                  ], 34 /* CLASS, HYDRATE_EVENTS */),
-                  ($data.showBottomBorder)
-                    ? (openBlock(), createElementBlock("div", _hoisted_6))
-                    : createCommentVNode("v-if", true),
-                  ($props.buttons)
-                    ? (openBlock(), createElementBlock("div", _hoisted_7, [
-                        createElementVNode("div", _hoisted_8, [
-                          renderSlot(_ctx.$slots, "buttons", { close: $options.close }, () => [
-                            createVNode(_component_r_button, { action: $options.close }, {
-                              default: withCtx(() => [
-                                _hoisted_9
-                              ]),
-                              _: 1 /* STABLE */
-                            }, 8 /* PROPS */, ["action"])
-                          ])
-                        ])
-                      ]))
-                    : createCommentVNode("v-if", true)
-                ], 44 /* STYLE, PROPS, HYDRATE_EVENTS */, _hoisted_1$3)
-              ], 2 /* CLASS */)
-            ], 36 /* STYLE, HYDRATE_EVENTS */))
-          : createCommentVNode("v-if", true)
-      ]),
-      _: 3 /* FORWARDED */
-    })
-  ]))
-}
+var _hoisted_9 = { "class": "r-buttons" };
+var script$3 = defineComponent({
+    __name: 'Modal',
+    props: {
+        title: {
+            "default": "Modal title",
+            type: [String, Boolean]
+        },
+        blocking: {
+            "default": false,
+            type: Boolean
+        },
+        buttons: {
+            "default": true,
+            type: Boolean
+        },
+        size: {
+            "default": "sm",
+            type: String
+        }
+    },
+    emits: ["close"],
+    setup: function (__props, _a) {
+        var _this = this;
+        var expose = _a.expose, emit = _a.emit;
+        var props = __props;
+        var id;
+        onBeforeMount(function () {
+            id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        });
+        computed(function () {
+            return modalsOpen.value.indexOf(id);
+        });
+        var modalContainerClass = computed(function () {
+            return "r-container-".concat(props.size);
+        });
+        var modalOverlayZIndex = computed(function () {
+            return 10000 + modalsOpen.value.indexOf(id);
+        });
+        var modalZIndex = computed(function () {
+            return 10001 + modalsOpen.value.indexOf(id);
+        });
+        var contentObs;
+        onMounted(function () {
+            contentObs = new index$1(function () {
+                checkContentScroll();
+            });
+        });
+        var modalOpen = ref(false);
+        onBeforeUnmount(function () {
+            if (modalOpen.value)
+                close();
+            if (contentObs)
+                contentObs.disconnect();
+        });
+        var modalContent = ref(null);
+        var open = function () { return __awaiter(_this, void 0, void 0, function () {
+            var index;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        index = modalsOpen.value.indexOf(id);
+                        if (index >= 0)
+                            modalsOpen.value.splice(index, 1);
+                        modalsOpen.value.push(id);
+                        modalOpen.value = true;
+                        document.body.classList.add("r-modal-open");
+                        return [4, nextTick()];
+                    case 1:
+                        _a.sent();
+                        if (modalContent.value) {
+                            contentObs.observe(modalContent.value);
+                        }
+                        return [2];
+                }
+            });
+        }); };
+        var close = function () {
+            modalsOpen.value.splice(modalsOpen.value.indexOf(id), 1);
+            modalOpen.value = false;
+            emit("close");
+            if (modalsOpen.value.length === 0)
+                document.body.classList.remove("r-modal-open");
+        };
+        var outsideClose = function () {
+            if (!props.blocking)
+                close();
+        };
+        var contentScrolls = ref(false);
+        var checkContentScroll = function () {
+            if (modalContent.value) {
+                var overflow = modalContent.value.scrollHeight - modalContent.value.clientHeight;
+                contentScrolls.value = overflow > 0;
+                updateScrollPosition();
+            }
+        };
+        var showTopBorder = ref(false);
+        var showBottomBorder = ref(false);
+        var updateScrollPosition = function () {
+            var content = modalContent.value;
+            if (content) {
+                showTopBorder.value = content.scrollTop > 4;
+                showBottomBorder.value = content.scrollTop < (content.scrollHeight - content.offsetHeight - 5);
+            }
+        };
+        expose({
+            open: open,
+            close: close
+        });
+        var Teleport$1 = Teleport;
+        return function (_ctx, _cache) {
+            var _component_r_button = resolveComponent("r-button");
+            return (openBlock(), createBlock(resolveDynamicComponent(unref(Teleport$1)), { to: "#rOverlayTarget" }, {
+                "default": withCtx(function () { return [
+                    createVNode(Transition, { name: "r-modal" }, {
+                        "default": withCtx(function () { return [
+                            (modalOpen.value)
+                                ? (openBlock(), createElementBlock("div", {
+                                    key: 0,
+                                    "class": "r-modal-overlay",
+                                    onClick: outsideClose,
+                                    onKeyup: withKeys(withModifiers(outsideClose, ["stop"]), ["esc"]),
+                                    style: normalizeStyle({ 'z-index': unref(modalOverlayZIndex) })
+                                }, [
+                                    createElementVNode("div", {
+                                        "class": normalizeClass(["r-modal-container", unref(modalContainerClass)])
+                                    }, [
+                                        createElementVNode("div", {
+                                            "class": "r-modal",
+                                            ref: "modal",
+                                            role: "dialog",
+                                            onClick: _cache[0] || (_cache[0] = withModifiers(function () { }, ["stop"])),
+                                            "aria-labelledby": __props.title ? "dialog-title-".concat(unref(id)) : null,
+                                            onKeydownCapture: withKeys(outsideClose, ["esc"]),
+                                            style: normalizeStyle({ 'z-index': unref(modalZIndex) })
+                                        }, [
+                                            (__props.title !== false)
+                                                ? (openBlock(), createElementBlock("div", _hoisted_3, [
+                                                    createElementVNode("h1", {
+                                                        "class": "r-modal-title r-text-md r-text-medium",
+                                                        id: "dialog-title-".concat(unref(id))
+                                                    }, toDisplayString(__props.title), 9, _hoisted_4),
+                                                    (!__props.blocking)
+                                                        ? (openBlock(), createBlock(_component_r_button, {
+                                                            key: 0,
+                                                            "class": "r-modal-close",
+                                                            borderless: "borderless",
+                                                            action: close,
+                                                            label: "Close dialog",
+                                                            icon: "close"
+                                                        }))
+                                                        : createCommentVNode("v-if", true)
+                                                ]))
+                                                : createCommentVNode("v-if", true),
+                                            (showTopBorder.value)
+                                                ? (openBlock(), createElementBlock("div", _hoisted_5))
+                                                : createCommentVNode("v-if", true),
+                                            createElementVNode("div", {
+                                                "class": normalizeClass(["r-modal-content", { 'r-modal-content-scroll': contentScrolls.value, 'no-buttons': !__props.buttons }]),
+                                                onScrollPassive: updateScrollPosition,
+                                                ref_key: "modalContent",
+                                                ref: modalContent
+                                            }, [
+                                                createElementVNode("div", _hoisted_6, [
+                                                    renderSlot(_ctx.$slots, "default")
+                                                ])
+                                            ], 34),
+                                            (showBottomBorder.value)
+                                                ? (openBlock(), createElementBlock("div", _hoisted_7))
+                                                : createCommentVNode("v-if", true),
+                                            (__props.buttons)
+                                                ? (openBlock(), createElementBlock("div", _hoisted_8, [
+                                                    createElementVNode("div", _hoisted_9, [
+                                                        renderSlot(_ctx.$slots, "buttons", { close: close }, function () { return [
+                                                            createVNode(_component_r_button, { action: close }, {
+                                                                "default": withCtx(function () { return [
+                                                                    createTextVNode("Close")
+                                                                ]; }),
+                                                                _: 1
+                                                            })
+                                                        ]; })
+                                                    ])
+                                                ]))
+                                                : createCommentVNode("v-if", true)
+                                        ], 44, _hoisted_2$1)
+                                    ], 2)
+                                ], 44, _hoisted_1$3))
+                                : createCommentVNode("v-if", true)
+                        ]; }),
+                        _: 3
+                    })
+                ]; }),
+                _: 3
+            }));
+        };
+    }
+});
 
 var css_248z$2 = ":root{--c-background:#f4f4f4}html.darkMode{--c-background:#171717}:root{--c-background-raised:#fff}html.darkMode{--c-background-raised:#212121}:root{--c-text:#212121}html.darkMode{--c-text:#bdbdbd}:root{--c-text-muted:#616161}html.darkMode{--c-text-muted:#9e9e9e}:root{--c-text-blue:#0168b7}html.darkMode{--c-text-blue:#178adb}:root{--c-text-purple:#6b36b5}html.darkMode{--c-text-purple:#9873cc}:root{--c-text-red:#c0401c}html.darkMode{--c-text-red:#cc6f60}:root,html.darkMode{--c-text-yellow:#f6b400}:root,html.darkMode{--c-text-white:#fff}:root{--c-border-light:#eee}html.darkMode{--c-border-light:#333}:root{--c-border-medium:#e0e0e0}html.darkMode{--c-border-medium:#424242}:root{--c-border-dark:#9e9e9e}html.darkMode{--c-border-dark:#757575}:root,html.darkMode{--c-accent-white:#fff}:root,html.darkMode{--c-accent-black:#000}:root{--c-accent-yellow:#f6cb2a}html.darkMode{--c-accent-yellow:#f6a200}:root{--c-accent-focus:#65b6ed}html.darkMode{--c-accent-focus:#0b78c8}:root,html.darkMode{--c-accent-error:#cc6f60}:root{--c-button-hover:rgba(0,0,0,.03)}html.darkMode{--c-button-hover:hsla(0,0%,100%,.05)}:root,html.darkMode{--c-button-primary:#0b78c8}:root,html.darkMode{--c-button-primary-hover:#178adb}:root{--c-button-gray:#f4f4f4}html.darkMode{--c-button-gray:#333}:root,html.darkMode{--c-background-tooltip:rgba(0,0,0,.9)}:root{--c-background-toast:rgba(0,0,0,.8)}html.darkMode{--c-background-toast:rgba(0,0,0,.9)}:root{--s-none:0;--s-xxs:2px;--s-xs:4px;--s-sm:8px;--s-md:16px;--s-lg:32px;--s-xl:64px;--s-xxl:128px;--container-xs:380px;--container-sm:540px;--container-md:720px;--container-lg:960px;--container-xl:1140px;--container-xxl:1320px;--t-family:BlinkMacSystemFont,-apple-system,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\";--t-weight-light:300;--t-weight-regular:400;--t-weight-medium:500;--t-weight-bold:700;--t-line-height-base:1.5;--t-size-base:16px;--t-size-xxs:calc(max(var(--t-size-base) * 0.750187546886722, 14px));--t-size-xs:calc(var(--t-size-base)*1);--t-size-sm:calc(var(--t-size-base)*1.333);--t-size-md:calc(var(--t-size-base)*1.77689);--t-size-lg:calc(var(--t-size-base)*2.36859);--t-size-xl:calc(var(--t-size-base)*3.15733);--t-size-xxl:calc(var(--t-size-base)*4.20873);--t-letter-spacing-xxs:0.02em;--t-letter-spacing-xs:0.01em;--t-letter-spacing-sm:0em;--t-letter-spacing-md:-0.01em;--t-letter-spacing-lg:-0.01em;--t-letter-spacing-xl:-0.02em;--t-letter-spacing-xxl:-0.02em;--t-line-height-xxs:calc(var(--t-line-height-base)*1.1);--t-line-height-xs:calc(var(--t-line-height-base)*1);--t-line-height-sm:calc(var(--t-line-height-base)*1);--t-line-height-md:calc(var(--t-line-height-base)*1);--t-line-height-lg:calc(var(--t-line-height-base)*0.9);--t-line-height-xl:calc(var(--t-line-height-base)*0.8);--t-line-height-xxl:calc(var(--t-line-height-base)*0.8)}body.r-modal-open{overflow:hidden}.r-modal-enter-active,.r-modal-leave-active{transition:opacity .1s ease-out}.r-modal-enter-active .r-modal,.r-modal-leave-active .r-modal{transition:transform .1s ease-out}.r-modal-enter-from,.r-modal-leave-to{opacity:0}.r-modal-enter-from .r-modal,.r-modal-leave-to .r-modal{transform:scale(.95)}@media (max-width:540px){.r-modal-enter-active,.r-modal-leave-active{transition:opacity .1s ease-out}.r-modal-enter-active .r-modal,.r-modal-leave-active .r-modal{transition:transform .1s cubic-bezier(.31,.79,.46,.92)}.r-modal-enter .r-modal,.r-modal-leave-to .r-modal{transform:translateY(12px)}}.r-modal-overlay{-webkit-overflow-scrolling:touch;background:rgba(0,0,0,.6);bottom:0;height:100%;left:0;overflow:hidden;position:fixed;right:0;text-align:center;top:0}@supports (display:grid){@media (min-width:540.1px){.r-modal-overlay{display:grid;grid-template-columns:100%;grid-template-rows:1fr max-content 2fr}.r-modal-overlay .r-modal-container{grid-column:1;grid-row:2;width:100%}}}.r-modal-container{text-align:left}.r-modal{word-wrap:break-word;background:var(--c-background-raised);border-radius:var(--s-md);box-shadow:0 15px 10px -5px rgba(0,0,0,.2);display:flex;flex-direction:column;max-height:calc(100vh - var(--s-md));overflow-y:auto}.r-modal-buttons,.r-modal-header{flex:0 0 auto}.r-modal-header{display:flex;padding:var(--s-lg) var(--s-lg) var(--s-md)}.r-modal-header .r-modal-title{align-self:center;flex:1 1 auto;margin:0}.r-modal-header .r-modal-close{align-self:flex-start;flex:0 0 auto}.r-modal-buttons{padding:var(--s-md) var(--s-lg) var(--s-lg)}.r-modal-content{flex:0 1 auto;overflow:hidden;padding:0 var(--s-lg)}.r-modal-content.no-buttons{padding-bottom:var(--s-md)}.r-modal-content.r-modal-content-scroll{min-height:var(--s-lg);overflow-y:auto;padding:0 var(--s-lg) var(--s-md)}@media (max-width:540px){.r-modal-container{display:flex;flex-direction:column;height:100%;justify-content:flex-end;padding:0}.r-modal{border-radius:0}}.r-modal-bottom-shadow,.r-modal-top-shadow{position:relative;z-index:10}.r-modal-bottom-shadow:after,.r-modal-top-shadow:after{content:\"\";height:20px;left:0;opacity:.07;pointer-events:none;position:absolute;right:0;user-select:none}.darkMode .r-modal-bottom-shadow,.darkMode .r-modal-top-shadow{background:var(--c-border-medium);height:1px}.darkMode .r-modal-bottom-shadow:after,.darkMode .r-modal-top-shadow:after{height:40px;opacity:.3}.r-modal-top-shadow:after{background:linear-gradient(180deg,#000 0,rgba(0,0,0,.878) 4.3%,rgba(0,0,0,.764) 8.6%,rgba(0,0,0,.657) 12.9%,rgba(0,0,0,.558) 17.3%,rgba(0,0,0,.467) 21.9%,rgba(0,0,0,.384) 26.8%,rgba(0,0,0,.309) 32.2%,rgba(0,0,0,.243) 38%,rgba(0,0,0,.184) 44.4%,rgba(0,0,0,.133) 51.4%,rgba(0,0,0,.09) 59.2%,rgba(0,0,0,.055) 67.9%,rgba(0,0,0,.028) 77.5%,rgba(0,0,0,.01) 88.2%,transparent);top:0}.r-modal-bottom-shadow:after{background:linear-gradient(0deg,#000 0,rgba(0,0,0,.878) 4.3%,rgba(0,0,0,.764) 8.6%,rgba(0,0,0,.657) 12.9%,rgba(0,0,0,.558) 17.3%,rgba(0,0,0,.467) 21.9%,rgba(0,0,0,.384) 26.8%,rgba(0,0,0,.309) 32.2%,rgba(0,0,0,.243) 38%,rgba(0,0,0,.184) 44.4%,rgba(0,0,0,.133) 51.4%,rgba(0,0,0,.09) 59.2%,rgba(0,0,0,.055) 67.9%,rgba(0,0,0,.028) 77.5%,rgba(0,0,0,.01) 88.2%,transparent);bottom:0}";
 styleInject(css_248z$2);
 
-script$3.render = render$1;
 script$3.__file = "src/components/Modal.vue";
 
 var script$2 = {

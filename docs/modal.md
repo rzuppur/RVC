@@ -1,3 +1,7 @@
+Exposed methods: `open` and `close`
+
+Emits: `close`
+
 ```html
 <r-modal
   title: string | false

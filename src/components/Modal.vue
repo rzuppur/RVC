@@ -1,6 +1,129 @@
+<script lang="ts" setup>
+
+import { ref, computed, onBeforeMount, onMounted, onBeforeUnmount, nextTick, Teleport as teleport_ } from "vue";
+import type { Ref, TeleportProps, VNodeProps } from "vue";
+import ResizeObserver from "resize-observer-polyfill";
+import { modalsOpen } from "../global";
+
+const emit = defineEmits<{
+  (e: "close"): void;
+}>();
+
+const props = defineProps({
+  title: {
+    default: "Modal title",
+    type: [String, Boolean],
+  },
+  blocking: {
+    default: false,
+    type: Boolean,
+  },
+  buttons: {
+    default: true,
+    type: Boolean,
+  },
+  size: {
+    default: "sm",
+    type: String,
+  },
+});
+
+let id: string;
+onBeforeMount(() => {
+  id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+});
+
+const myIndex = computed(() => {
+  return modalsOpen.value.indexOf(id);
+});
+
+const modalContainerClass = computed(() => {
+  return `r-container-${props.size}`;
+});
+
+const modalOverlayZIndex = computed(() => {
+  return 10000 + modalsOpen.value.indexOf(id);
+});
+
+const modalZIndex = computed(() => {
+  return 10001 + modalsOpen.value.indexOf(id);
+});
+
+let contentObs: ResizeObserver;
+onMounted(() => {
+  contentObs = new ResizeObserver(() => {
+    checkContentScroll();
+  });
+});
+
+const modalOpen = ref(false);
+onBeforeUnmount(() => {
+  if (modalOpen.value) close();
+  if (contentObs) contentObs.disconnect();
+});
+
+const modalContent: Ref<HTMLElement> = ref(null);
+
+const open = async () => {
+  const index = modalsOpen.value.indexOf(id);
+  if (index >= 0) modalsOpen.value.splice(index, 1);
+  modalsOpen.value.push(id);
+  modalOpen.value = true;
+  document.body.classList.add("r-modal-open");
+
+  await nextTick();
+
+  if (modalContent.value) {
+    contentObs.observe(modalContent.value);
+  }
+};
+
+const close = () => {
+  modalsOpen.value.splice(modalsOpen.value.indexOf(id), 1);
+  modalOpen.value = false;
+  emit("close");
+  if (modalsOpen.value.length === 0) document.body.classList.remove("r-modal-open");
+};
+
+const outsideClose = () => {
+  if (!props.blocking) close();
+};
+
+const contentScrolls = ref(false);
+const checkContentScroll = () => {
+  if (modalContent.value) {
+    const overflow = modalContent.value.scrollHeight - modalContent.value.clientHeight;
+    contentScrolls.value = overflow > 0;
+    updateScrollPosition();
+  }
+};
+
+const showTopBorder = ref(false);
+const showBottomBorder = ref(false);
+const updateScrollPosition = () => {
+  const content = modalContent.value;
+  if (content) {
+    showTopBorder.value = content.scrollTop > 4;
+    showBottomBorder.value = content.scrollTop < ( content.scrollHeight - content.offsetHeight - 5 );
+  }
+};
+
+defineExpose({
+  open,
+  close,
+});
+
+// todo: workaround, see https://github.com/vuejs/core/issues/2855
+const Teleport = teleport_ as {
+  new (): {
+    $props: VNodeProps & TeleportProps
+  }
+}
+
+</script>
 <template lang="pug">
 
-teleport(to="#rOverlayTarget")
+component(:is="Teleport" to="#rOverlayTarget")
 
   transition(name="r-modal")
 
@@ -17,14 +140,14 @@ teleport(to="#rOverlayTarget")
           ref="modal"
           role="dialog"
           @click.stop=""
-          :aria-labelledby="title ? `dialog-title-${_id}` : null"
+          :aria-labelledby="title ? `dialog-title-${id}` : null"
           @keydown.capture.esc="outsideClose"
           :style="{ 'z-index': modalZIndex }"
         )
 
           .r-modal-header(v-if="title !== false")
 
-            h1.r-modal-title.r-text-md.r-text-medium(:id="`dialog-title-${_id}`") {{ title }}
+            h1.r-modal-title.r-text-md.r-text-medium(:id="`dialog-title-${id}`") {{ title }}
 
             r-button.r-modal-close(v-if="!blocking" borderless :action="close" label="Close dialog" icon="close")
 
@@ -46,107 +169,6 @@ teleport(to="#rOverlayTarget")
                 r-button(:action="close") Close
 
 </template>
-<script>
-
-import ResizeObserver from "resize-observer-polyfill";
-import { modalsOpen } from "../global";
-
-export default {
-  name: "Modal",
-  emits: ["close"],
-  props: {
-    title: {
-      default: "Modal title",
-      type: [String, Boolean],
-    },
-    blocking: {
-      default: false,
-      type: Boolean,
-    },
-    buttons: {
-      default: true,
-      type: Boolean,
-    },
-    size: {
-      default: "sm",
-      type: String,
-    },
-  },
-  data() {
-    return {
-      modalOpen: false,
-      contentScrolls: false,
-      showTopBorder: false,
-      showBottomBorder: false,
-    };
-  },
-  computed: {
-    myIndex() {
-      return modalsOpen.value.indexOf(this._id);
-    },
-    modalContainerClass() {
-      return `r-container-${this.size}`;
-    },
-    modalOverlayZIndex() {
-      return 10000 + modalsOpen.value.indexOf(this._id);
-    },
-    modalZIndex() {
-      return 10001 + modalsOpen.value.indexOf(this._id);
-    },
-  },
-  beforeCreate() {
-    this._id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-  },
-  mounted() {
-    this.contentObs = new ResizeObserver(() => {
-      this.checkContentScroll();
-    });
-  },
-  beforeDestroy() {
-    if (this.modalOpen) this.close();
-    if (this.contentObs) this.contentObs.disconnect();
-  },
-  methods: {
-    async open() {
-      const index = modalsOpen.value.indexOf(this._id);
-      if (index >= 0) modalsOpen.value.splice(index, 1);
-      modalsOpen.value.push(this._id);
-      this.modalOpen = true;
-      document.body.classList.add("r-modal-open");
-
-      await this.$nextTick();
-
-      if (this.$refs.modalContent) {
-        this.contentObs.observe(this.$refs.modalContent);
-      }
-    },
-    close() {
-      modalsOpen.value.splice(modalsOpen.value.indexOf(this._id), 1);
-      this.modalOpen = false;
-      this.$emit("close");
-      if (modalsOpen.value.length === 0) document.body.classList.remove("r-modal-open");
-    },
-    outsideClose() {
-      if (!this.blocking) this.close();
-    },
-    checkContentScroll() {
-      if (this.$refs.modalContent) {
-        const overflow = this.$refs.modalContent.scrollHeight - this.$refs.modalContent.clientHeight;
-        this.contentScrolls = overflow > 0;
-        this.updateScrollPosition();
-      }
-    },
-    updateScrollPosition() {
-      const content = this.$refs.modalContent;
-      if (content) {
-        this.showTopBorder = content.scrollTop > 4;
-        this.showBottomBorder = content.scrollTop < ( content.scrollHeight - content.offsetHeight - 5 );
-      }
-    },
-  },
-};
-
-</script>
 <style lang="stylus">
 
 @require "../styles/shared.styl"

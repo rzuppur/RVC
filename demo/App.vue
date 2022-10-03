@@ -11,6 +11,15 @@ const toggleDarkMode = () => {
 
 // ICONS DEMO
 import ICONS from "../src/icons";
+const copyIconText = (iconText: string) => {
+  navigator.permissions.query({ name: "clipboard-write" } as unknown as PermissionDescriptor).then((result) => {
+    if (result.state === "granted" || result.state === "prompt") {
+      navigator.clipboard.writeText(iconText).then(() => {
+        toast(`Copied ${iconText} to clipboard`);
+      });
+    }
+  });
+};
 
 // TOAST
 import { useToast } from "./main";
@@ -152,7 +161,7 @@ const confirmModalDemo = async () => {
         include:markdown-it ../docs/icon.md
       hr
       .icons.r-p-lg
-        r-icon.gray(v-for="icon in [...Object.keys(ICONS), 'missing']" :icon="icon" v-r-tip="icon")
+        r-icon.gray(v-for="icon in [...Object.keys(ICONS), 'missing']" :icon="icon" v-r-tip="icon" @click="() => { copyIconText(icon); }")
 
     .r-background-raised.r-m-b-md.r-border-radius-md#6
       .r-p-lg(v-pre)

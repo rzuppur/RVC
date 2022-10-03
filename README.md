@@ -90,6 +90,10 @@ Material or modified material icons as 24x24px svg.
 />
 ```
 ### Modal
+Exposed methods: `open` and `close`
+
+Emits: `close`
+
 ```html
 <r-modal
   title: string | false
