@@ -1,0 +1,177 @@
+body.r-modal-open
+  overflow hidden
+
+.r-modal-enter-active,
+.r-modal-leave-active
+  transition opacity 100ms ease-out
+
+  .r-modal
+    transition transform 100ms ease-out
+
+.r-modal-enter-from,
+.r-modal-leave-to
+  opacity 0
+
+  .r-modal
+    transform scale(.95)
+
+
+@media (max-width _$container-sm)
+
+  .r-modal-enter-active,
+  .r-modal-leave-active
+    transition opacity 100ms ease-out
+
+    .r-modal
+      transition transform 100ms cubic-bezier(.31, .79, .46, .92)
+
+  .r-modal-enter,
+  .r-modal-leave-to
+    .r-modal
+      transform translateY(12px)
+
+.r-modal-overlay
+  overflow hidden
+  -webkit-overflow-scrolling touch
+  position fixed
+  text-align center
+  left 0
+  top 0
+  right 0
+  bottom 0
+  height 100%
+  background alpha(black, 0.6)
+
+  @supports (display: grid)
+    @media (min-width _$container-sm + 0.1px)
+      grid-template-columns 100%
+      grid-template-rows 1fr max-content 2fr
+      display grid
+
+      .r-modal-container
+        grid-column 1
+        grid-row 2
+        width 100%
+
+.r-modal-container
+  text-align left
+
+.r-modal
+  background $c-background-raised
+  border-radius $s-md
+  word-wrap break-word
+  overflow-y auto
+  display flex
+  flex-direction column
+  max-height "calc(100vh - %s)" % $s-md
+  box-shadow 0 15px 10px -5px alpha(black, 20%)
+
+.r-modal-header,
+.r-modal-buttons
+  flex 0 0 auto
+
+.r-modal-header
+  display flex
+  padding $s-lg $s-lg $s-md
+
+  .r-modal-title
+    flex 1 1 auto
+    align-self center
+    margin 0
+
+  .r-modal-close
+    flex 0 0 auto
+    align-self flex-start
+
+.r-modal-buttons
+  padding $s-md $s-lg $s-lg
+
+.r-modal-content
+  padding 0 $s-lg
+  flex 0 1 auto
+  overflow hidden
+
+  &.no-buttons
+    padding-bottom $s-md
+
+  &.r-modal-content-scroll
+    min-height $s-lg
+    padding 0 $s-lg $s-md
+    overflow-y auto
+
+@media (max-width _$container-sm)
+
+  .r-modal-container
+    padding 0
+    justify-content flex-end
+    height 100%
+    display flex
+    flex-direction column
+
+  .r-modal
+    border-radius 0
+
+.r-modal-top-shadow,
+.r-modal-bottom-shadow
+  position relative
+  z-index 10
+
+  &:after
+    content ""
+    user-select none
+    pointer-events none
+    height 20px
+    position absolute
+    left 0
+    right 0
+    opacity 0.07
+
+  .darkMode &
+    height 1px
+    background $c-border-medium
+
+    &:after
+      opacity 0.3
+      height 40px
+
+.r-modal-top-shadow:after
+  top 0
+  background linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 0.878) 4.3%,
+          rgba(0, 0, 0, 0.764) 8.6%,
+          rgba(0, 0, 0, 0.657) 12.9%,
+          rgba(0, 0, 0, 0.558) 17.3%,
+          rgba(0, 0, 0, 0.467) 21.9%,
+          rgba(0, 0, 0, 0.384) 26.8%,
+          rgba(0, 0, 0, 0.309) 32.2%,
+          rgba(0, 0, 0, 0.243) 38%,
+          rgba(0, 0, 0, 0.184) 44.4%,
+          rgba(0, 0, 0, 0.133) 51.4%,
+          rgba(0, 0, 0, 0.09) 59.2%,
+          rgba(0, 0, 0, 0.055) 67.9%,
+          rgba(0, 0, 0, 0.028) 77.5%,
+          rgba(0, 0, 0, 0.01) 88.2%,
+          rgba(0, 0, 0, 0) 100%)
+
+.r-modal-bottom-shadow:after
+  bottom 0
+  background linear-gradient(
+          to top,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 0.878) 4.3%,
+          rgba(0, 0, 0, 0.764) 8.6%,
+          rgba(0, 0, 0, 0.657) 12.9%,
+          rgba(0, 0, 0, 0.558) 17.3%,
+          rgba(0, 0, 0, 0.467) 21.9%,
+          rgba(0, 0, 0, 0.384) 26.8%,
+          rgba(0, 0, 0, 0.309) 32.2%,
+          rgba(0, 0, 0, 0.243) 38%,
+          rgba(0, 0, 0, 0.184) 44.4%,
+          rgba(0, 0, 0, 0.133) 51.4%,
+          rgba(0, 0, 0, 0.09) 59.2%,
+          rgba(0, 0, 0, 0.055) 67.9%,
+          rgba(0, 0, 0, 0.028) 77.5%,
+          rgba(0, 0, 0, 0.01) 88.2%,
+          rgba(0, 0, 0, 0) 100%)

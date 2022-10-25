@@ -1,6 +1,6 @@
 {
   "name": "@rzuppur/rvc",
-  "version": "0.54.0",
+  "version": "0.56.0",
   "author": "Reino Zuppur",
   "private": false,
   "publishConfig": {
@@ -32,7 +32,9 @@
     "@rollup/plugin-replace": "^4.0.0",
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/compiler-sfc": "^3.2.40",
+    "cssnano-preset-advanced": "^5.3.8",
     "jstransformer-markdown-it": "^3.0.0",
+    "postcss-combine-duplicated-selectors": "^10.0.3",
     "pug": "^3.0.2",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^3.0.2",

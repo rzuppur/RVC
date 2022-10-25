@@ -1,0 +1,227 @@
+control-fullwidth()
+  display flex
+  width 100%
+
+_$input-height = 42px
+_$input-height-small = 34px
+
+control-small()
+  height _$input-height-small
+
+control()
+  -webkit-touch-callout none
+  -webkit-appearance none
+  -moz-appearance none
+
+  display inline-flex
+  align-items center
+  justify-content center
+  position relative
+  vertical-align top
+
+  height _$input-height
+  padding 0 12px
+  border-radius $s-sm
+  border 1px solid $c-border-medium
+
+  color $c-text
+  background $c-background-raised
+  font-family $t-family
+  text-decoration none
+
+  &:focus,
+  &:active
+    outline none
+
+  &[disabled]
+    pointer-events none
+
+  &:active:not([disabled]),
+  &:focus:not(:active)
+    border-color $c-accent-focus
+    box-shadow 0 0 2px $c-accent-focus
+
+  &.fullwidth
+    control-fullwidth()
+
+  &.small
+    control-small()
+
+@keyframes rSpin
+  from
+    transform rotate(0deg)
+  to
+    transform rotate(359deg)
+
+.r-button
+  control()
+  cursor pointer
+  user-select none
+  white-space nowrap
+  text-align center
+
+  &:hover,
+  &.borderless:hover
+    background $c-button-hover
+
+  &:focus
+    box-shadow inset 0 0 0 1px $c-accent-black, inset 0 0 0 3px $c-accent-yellow !important
+    border-color $c-accent-black !important
+
+  &.borderless
+    background-color transparent
+    border-color transparent
+
+  &.primary
+    background $c-button-primary
+    border-color transparent
+    color $c-text-white
+
+    &:hover
+      background $c-button-primary-hover
+
+  &.gray
+    background $c-button-gray
+
+    &:hover
+      background $c-button-hover
+
+  &[disabled]
+    box-shadow none !important
+    opacity 0.5
+
+  &.icon-only
+    width _$input-height
+    min-width @width
+    padding 0
+
+    &.small
+      width _$input-height-small
+      min-width @width
+
+  &:not(.icon-only)
+    min-width 65px
+
+  &.loading
+    color transparent !important
+    pointer-events none
+
+    & > span
+      opacity 0
+
+    &::after
+      content ""
+      width 18px
+      height @width
+      border 2px solid transparent
+      border-top-color $c-border-dark
+      border-right-color $c-border-dark
+      border-radius 100%
+      animation rSpin 0.6s infinite linear
+      position absolute !important
+
+  &.loading.primary::after
+    border-top-color $c-accent-white
+    border-right-color $c-accent-white
+
+  &:not(.muted) > span:not(.icon)
+    font-weight $t-weight-medium
+
+  & > span
+    transition opacity 75ms
+
+    &:not(.r-icon)
+      position relative
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      font-size $t-size-xs
+
+  & > .r-icon
+
+    &:first-child:not(:last-child)
+      margin-left -2px
+      margin-right 8px
+
+    &:last-child:not(:first-child)
+      margin-left 8px
+      margin-right -2px
+
+    &:first-child:last-child
+      margin-left 0
+      margin-right 0
+
+&.small > .r-icon
+
+  &:first-child:not(:last-child)
+    margin-left -4px
+    margin-right 5px
+
+  &:last-child:not(:first-child)
+    margin-right -4px
+    margin-left 5px
+
+
+_$buttons_margin = _$s-sm
+
+.r-buttons
+  margin-right -(_$buttons_margin)
+  margin-bottom -(_$buttons_margin)
+  display flex
+  flex-direction row
+  flex-wrap wrap
+  align-items center
+
+  .r-button
+    margin-right _$buttons_margin
+    margin-bottom _$buttons_margin
+    flex 0 0 auto
+
+.r-buttons-grouped
+  margin-right -(_$buttons_margin)
+  margin-bottom -(_$buttons_margin)
+
+  .r-button-group
+    display inline-block
+    margin-right _$buttons_margin
+    margin-bottom _$buttons_margin
+
+    .r-button + .r-button
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      margin-left -1px
+
+    .r-button
+
+      &:hover,
+      &:focus
+        z-index 1
+
+      &:not(:last-child)
+        border-top-right-radius 0
+        border-bottom-right-radius 0
+
+.r-form-group
+  margin-bottom $s-md
+
+.r-form-label
+  display block
+  margin-bottom $space-extra-tiny
+
+.r-input-text
+  control()
+  color $c-text
+
+  &::placeholder
+    color $c-text-quiet
+    opacity 0.8
+
+  &.invalid
+    border-color $c-accent-error
+    box-shadow inset 0 0 2px $c-accent-error
+
+textarea.r-input-text
+  overflow hidden
+  height auto
+  padding 9px 12px
+  resize vertical

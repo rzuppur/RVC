@@ -73,7 +73,7 @@ setInterval(() => {
 </script>
 <template lang="pug">
 
-.tooltip(
+.r-tooltip(
   v-for="tt in tooltipsWithLocation"
   :key="tt.id"
   :class="{ active: tt.active, left: tt.modifiers.left, right: tt.modifiers.right, bottom: tt.modifiers.bottom }"
@@ -82,31 +82,3 @@ setInterval(() => {
   .r-text-xxs {{ tt.value }}
 
 </template>
-<style lang="stylus" scoped>
-
-@require "../styles/shared.styl"
-
-.tooltip
-  position fixed
-  z-index 12000
-  user-select none
-  pointer-events none
-  background $c-background-tooltip
-  color $c-text-white
-  padding $s-xs $s-sm
-  border-radius $s-sm
-  transition top 100ms, left 100ms, opacity 100ms
-  transition-delay 50ms
-  white-space nowrap
-  transform translateX(-50%) translateY(-50%)
-
-  &.left
-    transform translateX(-100%) translateY(-50%)
-
-  &.right
-    transform translateX(0) translateY(-50%)
-
-  &:not(.active)
-    opacity 0
-
-</style>

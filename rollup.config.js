@@ -5,6 +5,7 @@ import postcss from "rollup-plugin-postcss";
 import resolve from "@rollup/plugin-node-resolve";
 import ts from "rollup-plugin-ts";
 import alias from "@rollup/plugin-alias";
+import combine from "postcss-combine-duplicated-selectors";
 
 export default {
   input: "src/index.ts",
@@ -29,7 +30,10 @@ export default {
     }),
     ts(),
     postcss({
-      minimize: true,
+      plugins: [combine],
+      minimize: {
+        preset: "advanced",
+      },
     }),
     alias({
       resolve: [ ".js", ".ts", ".tsx" ],

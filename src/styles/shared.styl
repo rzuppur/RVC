@@ -1,7 +1,6 @@
 @require "shared/color-palette.styl"
 @require "shared/mixins.styl"
 
-
 /*
 COLORS
  */
@@ -90,56 +89,3 @@ v("t-line-height-md", "calc(%s * 0.95)" % $t-line-height-base)
 v("t-line-height-lg", "calc(%s * 0.8)" % $t-line-height-base)
 v("t-line-height-xl", "calc(%s * 0.75)" % $t-line-height-base)
 v("t-line-height-xxl", "calc(%s * 0.75)" % $t-line-height-base)
-
-/*
-INPUTS
- */
-
-control-fullwidth()
-  display flex
-  width 100%
-
-_$input-height = 42px
-_$input-height-small = 34px
-
-control-small()
-  height _$input-height-small
-
-control()
-  -webkit-touch-callout none
-  -webkit-appearance none
-  -moz-appearance none
-
-  display inline-flex
-  align-items center
-  justify-content center
-  position relative
-  vertical-align top
-
-  height _$input-height
-  padding 0 12px
-  border-radius $s-sm
-  border 1px solid $c-border-medium
-
-  color $c-text
-  background $c-background-raised
-  font-family $t-family
-  text-decoration none
-
-  &:focus,
-  &:active
-    outline none
-
-  &[disabled]
-    pointer-events none
-
-  &:active:not([disabled]),
-  &:focus:not(:active)
-    border-color $c-accent-focus
-    box-shadow 0 0 2px $c-accent-focus
-
-  &.fullwidth
-    control-fullwidth()
-
-  &.small
-    control-small()
