@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-//import rvc, { useToast, useModalConfirm } from "../dist/index";
 import rvc, { useToast, useModalConfirm } from "../src/index";
 import App from "./App.vue";
 

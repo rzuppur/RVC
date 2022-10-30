@@ -26,6 +26,9 @@ Apply display flex, direction row
 Apply flex direction column
 - `r-flex-container-column`
 
+Enable flex wrap
+- `r-flex-wrap`
+
 Align flex childs
 - `r-flex-items-{"start" | "center" | "end"}`
 

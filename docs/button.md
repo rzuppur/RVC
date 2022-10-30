@@ -14,7 +14,7 @@ Every property listed is optional. If button contains no childs but has an icon,
     label: string  // aria-label, for icon only buttons
     icon: string  // One of valid r-icon icons
     icon-right: boolean  // default false
-    icon-color: string  // ("gray" | "green" | "red" | "blue" | "gold" | "white")
+    icon-color: string  // ("gray" | "green" | "red" | "blue" | "yellow")
   >
     {{ text }}
   </r-button>

@@ -1,34 +1,39 @@
 <script setup lang="ts">
 
 import { h, useAttrs } from "vue";
-import ICONS from "../icons";
 
 const attrs = useAttrs();
-const MISSING_ICON = "M21.5,10.8L13.2,2.5C12.5,1.8 11.5,1.8 10.8,2.5L2.5,10.8C1.8,11.5 1.8,12.5 2.5,13.2L10.8,21.5C11.5,22.2 12.5,22.2 13.2,21.5L21.5,13.2C22.1,12.5 22.1,11.5 21.5,10.8M12.5,17H11V15.5H12.5V17M14.3,11.8C13.9,12.3 13.2,12.6 12.9,13.1C12.6,13.5 12.6,14 12.6,14.5H11C11,13.7 11,13 11.3,12.5C11.6,12 12.3,11.7 12.7,11.4C13.9,10.3 13.6,8.7 11.9,8.6C11.1,8.6 10.4,9.3 10.4,10.1H9C9,8.4 10.3,7.1 12,7.1C14.7,7.1 15.9,9.8 14.3,11.8Z";
-const toSvgTag = svgPath => `<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path d="${svgPath}" /></svg>`;
 
 const props: any = defineProps({
   icon: {
     type: String,
     required: true,
+  },
+  size: {
+    type: String,
+    required: false,
+    default: "md",
     validator(value: string) {
-      if ([...Object.keys(ICONS), "missing"].includes(value)) {
-        return true;
-      }
-      console.warn(`Invalid icon name ${value}, available names are ${Object.keys(ICONS).join(", ")}`);
+      if (["sm", "md", "lg"].includes(value)) return true;
+      console.warn(`Invalid icon size ${value}, available sizes are sm, md, lg`);
       return false;
     },
   },
+  filled: {
+    type: Boolean,
+    required: false,
+  }
 });
 
-const valid = !!ICONS[props.icon];
+
 const Icon = () => {
+  const classes = ["r-icon", `icon-${props.size}`];
+  if (props.filled) classes.push("filled");
   return h("span", {
     "aria-hidden": true,
-    class: ["r-icon", valid ? "" : "red"],
+    class: classes,
     directives: attrs.directives,
-    innerHTML: valid ? toSvgTag(ICONS[props.icon]) : toSvgTag(MISSING_ICON),
-  });
+  }, props.icon);
 };
 
 </script>

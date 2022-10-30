@@ -2,6 +2,17 @@
 @require "shared/mixins.styl"
 
 /*
+PALETTE
+ */
+:root
+  defineCssVar("p-white", $p-white)
+  defineCssVar("p-black", $p-black)
+
+  for color in "gray" "blue" "red" "purple" "yellow" "green"
+    for shade in 950 900 850 800 700 600 500 400 300 200 100 50
+      defineCssVar("p-" + color + "-" + shade, lookup("$p-" + color + "-" + shade))
+
+/*
 COLORS
  */
 c("background", $p-gray-100, $p-gray-950)
@@ -15,9 +26,16 @@ c("text-red", $p-red-600, $p-red-300)
 c("text-yellow", $p-yellow-600)
 c("text-white", $p-white)
 
+c("icon-gray", $p-gray-700, $p-gray-500)
+c("icon-green", $p-green-500, $p-green-400)
+c("icon-red", $p-red-400, $p-red-400)
+c("icon-blue", $p-blue-600, $p-blue-400)
+c("icon-yellow", $p-yellow-600, $p-yellow-400)
+c("icon-white", $p-white)
+
 c("border-light", $p-gray-200, $p-gray-850)
 c("border-medium", $p-gray-300, $p-gray-800)
-c("border-dark", $p-gray-500, $p-gray-600)
+c("border-dark", $p-gray-700, $p-gray-600)
 
 c("accent-white", $p-white)
 c("accent-black", $p-black)

@@ -6,6 +6,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import ts from "rollup-plugin-ts";
 import alias from "@rollup/plugin-alias";
 import combine from "postcss-combine-duplicated-selectors";
+import url from "postcss-url";
 
 export default {
   input: "src/index.ts",
@@ -24,13 +25,18 @@ export default {
       preventAssignment: true,
     }),
     vue({
-      preprocessStyles: true,
       css: false,
-      compileTemplate: true,
     }),
     ts(),
     postcss({
-      plugins: [combine],
+      plugins: [
+        combine,
+        url({
+          url: "inline",
+          maxSize: Infinity,
+          filter: "**/*.woff2",
+        }),
+      ],
       minimize: {
         preset: "advanced",
       },

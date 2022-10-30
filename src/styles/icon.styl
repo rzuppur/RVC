@@ -1,7 +1,64 @@
+/*
+@font-face
+  font-family "Material Symbols Outlined"
+  font-style normal
+  font-display block
+  src url("../assets/material-symbols-outlined.woff2") format("woff2-variations")
+*/
+
+@font-face
+  font-family "Material Symbols Rounded"
+  font-style normal
+  font-display block
+  src url("../assets/material-symbols-rounded.woff2") format("woff2-variations")
+
+$_iconWeight = 350;
+$_iconGrad = 0;
+$_iconGradDarkMode = -25;
+
 .r-icon
-  height 24px
-  width 24px
+  font-family "Material Symbols Rounded" //, "Material Symbols Outlined"
   display inline-block
+  user-select none
+  overflow hidden
+  vertical-align bottom
+  font-weight 400
+  font-style normal
+  text-transform none
+  letter-spacing normal
+  line-height 1
+  word-wrap normal
+  white-space nowrap
+  direction ltr
+  font-feature-settings "liga"
+  font-variation-settings "FILL" 0, "wght" $_iconWeight, "GRAD" $_iconGrad
+  font-optical-sizing auto
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+  &.filled
+    font-variation-settings "FILL" 1, "wght" $_iconWeight, "GRAD" $_iconGradDarkMode
+
+  .darkMode &:not(.filled)
+    font-variation-settings "FILL" 0, "wght" $_iconWeight, "GRAD" $_iconGradDarkMode
+
+  .darkMode &.filled
+    font-variation-settings "FILL" 1, "wght" $_iconWeight, "GRAD" $_iconGradDarkMode
+
+  &.icon-sm
+    font-size 20px
+    width @font-size
+    height @font-size
+
+  &.icon-md
+    font-size 24px
+    width @font-size
+    height @font-size
+
+  &.icon-lg
+    font-size 40px
+    width @font-size
+    height @font-size
 
   &.icon-text
     vertical-align text-bottom
@@ -9,25 +66,20 @@
     position relative
     top 1px
 
-  &.icon-text,
-  &.icon-text svg
-    height 18px !important
-    width 18px !important
+  &.gray
+    color $c-icon-gray
 
-  &.gray svg
-    fill $c-text-muted
+  &.green
+    color $c-icon-green
 
-  &.green svg
-    fill green
+  &.red
+    color $c-icon-red
 
-  &.red svg
-    fill $c-text-red
+  &.blue
+    color $c-icon-blue
 
-  &.blue svg
-    fill $c-text-blue
+  &.yellow
+    color $c-icon-yellow
 
-  &.gold svg
-    fill $c-text-yellow
-
-  &.white svg
-    fill $c-text-white
+  &.white
+    color $c-icon-white

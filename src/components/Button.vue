@@ -32,6 +32,7 @@ const Button = () => {
   if (props.icon) {
     icon = h(Icon, {
       icon: props.icon,
+      size: props.small ? "sm" : "md",
       class: [{
         white: props.primary,
         gray: !props.primary && !props.iconColor,
@@ -52,7 +53,7 @@ const Button = () => {
   const buttonClasses = {
     "r-button": true,
     "icon-only": props.icon && !textSlot,
-    borderless: props.borderless,
+    borderless: props.borderless || props.gray,
     primary: props.primary,
     gray: props.gray,
     fullwidth: props.fullwidth,

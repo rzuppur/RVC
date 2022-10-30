@@ -13,6 +13,7 @@ const props: any = defineProps({
   error: { type: String, default: undefined },
   type: { type: String, default: "text" },
   fullwidth: { type: Boolean, default: true },
+  small: { type: Boolean, default: false },
   modelValue: [String, Number],
 });
 
@@ -35,7 +36,7 @@ export default {
   input.r-input-text(
     :id="uid"
     :type="props.type"
-    :class="{ fullwidth: props.fullwidth, invalid: props.error }"
+    :class="{ fullwidth: props.fullwidth, invalid: props.error, small: props.small }"
     :placeholder="props.placeholder"
     :value="props.modelValue"
     v-bind="attrs"

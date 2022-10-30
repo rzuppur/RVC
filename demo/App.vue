@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const version = __APP_VERSION__;
 
@@ -10,12 +10,32 @@ const toggleDarkMode = () => {
 };
 
 // ICONS DEMO
-import ICONS from "../src/icons";
+import { ALL_ICONS } from "./icons";
+const filterText = ref("");
+const iconSize = ref("md");
+const iconFill = ref(false);
+const iconLimit = ref(54);
+const icons = computed(() => {
+  if (filterText.value.length) return ALL_ICONS.filter(icon => icon.split("_").some(t => t.startsWith(filterText.value.toLocaleLowerCase())));
+  return ALL_ICONS;
+});
 const copyIconText = (iconText: string) => {
   navigator.permissions.query({ name: "clipboard-write" } as unknown as PermissionDescriptor).then((result) => {
     if (result.state === "granted" || result.state === "prompt") {
       navigator.clipboard.writeText(iconText).then(() => {
         toast(`Copied ${iconText} to clipboard`);
+      });
+    }
+  });
+};
+
+// PALETTE COPY
+const copyPaletteVar = (color: string, shade: string) => {
+  navigator.permissions.query({ name: "clipboard-write" } as unknown as PermissionDescriptor).then((result) => {
+    if (result.state === "granted" || result.state === "prompt") {
+      const text = `var(--p-${color}-${shade})`;
+      navigator.clipboard.writeText(text).then(() => {
+        toast(`Copied ${text} to clipboard`);
       });
     }
   });
@@ -49,7 +69,7 @@ const confirmModalDemo = async () => {
         h1.r-text-xl.r-text-light.r-m-b-sm RVC
           span.r-m-l-sm.r-text-xs.r-text-regular v{{ version }}
         h2.r-text-sm User interface components and styles for Vue 3
-        r-button.r-m-t-md(small :action="toggleDarkMode" icon="brightness dark") Toggle dark theme
+        r-button.r-m-t-md(small :action="toggleDarkMode" icon="brightness_medium") Toggle dark theme
 
         p.r-m-t-lg
           a(href="https://github.com/rzuppur/rvc/blob/master/demo/App.vue" target="_blank") View current page source code
@@ -92,34 +112,31 @@ const confirmModalDemo = async () => {
               attributes) Primary
             r-button(borderless)&attributes(
               attributes) Borderless
-            r-button(gray borderless)&attributes(
-              attributes) Gray borderless
             r-button(gray)&attributes(
               attributes) Gray
         +buttonsTests()
         +buttonsTests()(disabled=true)
         +buttonsTests()(loading=true)
         .r-buttons.r-space
-          r-button(icon="arrow left") Icon
-          r-button(icon="arrow right" icon-right) Icon right
+          r-button(icon="arrow_back") Icon
+          r-button(icon="arrow_forward" icon-right) Icon right
           r-button(primary icon="add") Icon
           r-button(borderless icon="close" icon-color="red") Icon
-          r-button(gray borderless icon="edit" icon-color="blue") Icon
-          r-button(gray icon="check" icon-color="green") Icon
-          r-button(icon="add image" icon-color="gold")
-          r-button(borderless icon="eye visible")
+          r-button(gray icon="edit" icon-color="blue") Icon
+          r-button(icon="image" icon-color="green")
+          r-button(borderless icon="visibility" icon-color="yellow")
         .r-buttons.r-space
           r-button(:action="clickTest" :actionWithModifier="ctrlClickTest") Test click
           r-button(small) Small
-          r-button(small icon="arrow left") Small icon
-          r-button(small icon="arrow right" icon-right) Icon right
+          r-button(small icon="arrow_back") Small icon
+          r-button(small icon="arrow_forward" icon-right) Icon right
           r-button(small icon="close")
           r-button(small borderless icon="edit")
         .r-buttons-grouped.r-space
           .r-button-group
-            r-button(icon="text bold")
-            r-button(icon="text italic")
-            r-button(icon="text underline")
+            r-button(icon="format_bold")
+            r-button(icon="format_italic")
+            r-button(icon="format_underlined")
           .r-button-group
             r-button Buttons
             r-button Grouped
@@ -147,6 +164,8 @@ const confirmModalDemo = async () => {
         .r-form-group
           r-text-input(label="Text input" :fullwidth="false" placeholder="Placeholder")
         .r-form-group
+          r-text-input(label="Small input" :small="true")
+        .r-form-group
           r-text-input(label="Full width" model-value="Text input")
         .r-form-group
           r-text-input(label="With error" error="Error message")
@@ -160,8 +179,20 @@ const confirmModalDemo = async () => {
         h1.r-text-md.r-text-bold 5. Icons
         include:markdown-it ../docs/icon.md
       hr
+      .r-p-lg.r-p-b-none
+        r-text-input(label="Filter" :fullwidth="false" :small="true" v-model.trim="filterText")
+        .r-buttons-grouped.r-m-t-sm
+          .r-button-group
+            r-button(small :action="() => { iconSize = 'sm'; }" :icon="iconSize === 'sm' ? 'radio_button_checked' : 'radio_button_unchecked'") sm
+            r-button(small :action="() => { iconSize = 'md'; }" :icon="iconSize === 'md' ? 'radio_button_checked' : 'radio_button_unchecked'") md
+            r-button(small :action="() => { iconSize = 'lg'; }" :icon="iconSize === 'lg' ? 'radio_button_checked' : 'radio_button_unchecked'") lg
+          .r-button-group
+            r-button(small :action="() => { iconFill = false; }" :icon="!iconFill ? 'radio_button_checked' : 'radio_button_unchecked'") outline
+            r-button(small :action="() => { iconFill = true; }" :icon="!!iconFill ? 'radio_button_checked' : 'radio_button_unchecked'") filled
       .icons.r-p-lg
-        r-icon.gray(v-for="icon in [...Object.keys(ICONS), 'missing']" :icon="icon" v-r-tip="icon" @click="() => { copyIconText(icon); }")
+        r-icon.gray(v-for="icon in icons.slice(0, iconLimit)" :icon="icon" :size="iconSize" :filled="iconFill" v-r-tip="icon" @click="() => { copyIconText(icon); }")
+        div
+          a(v-if="iconLimit < 10_000" @click="() => { iconLimit = 10_000; }") Show all
 
     .r-background-raised.r-m-b-md.r-border-radius-md#6
       .r-p-lg(v-pre)
@@ -198,8 +229,19 @@ const confirmModalDemo = async () => {
           p(v-for="i in 10") Modal content
 
     .r-background-raised.r-m-b-md.r-border-radius-md#7
-      .r-p-lg(v-pre)
+      .r-p-lg
         h1.r-text-md.r-text-bold 7. Theming
+        p Color palette used is available as css variables, click on the color below to copy its name to clipboard.
+        .r-m-t-sm(v-for="color in ['gray', 'blue', 'red', 'purple', 'yellow', 'green']" style="font-family: monospace;")
+          .r-text-xxs.r-text-bold.r-m-b-xs --p-{{ color }}-{SHADE}
+          .r-flex-container.r-flex-wrap(style="gap: var(--s-xs);")
+            .color-sample(
+              v-for="shade in [950, 900, 850, 800, 700, 600, 500, 400, 300, 200, 100, 50]"
+              :style="`background: var(--p-${color}-${shade});`"
+              @click="copyPaletteVar(color, shade)"
+            ) {{ shade }}
+      hr
+      .r-p-lg(v-pre)
         include:markdown-it ../docs/variables.md
 
     .r-background-raised.r-m-b-md.r-border-radius-md#8
@@ -269,5 +311,16 @@ body
 
 .container-demo
   background var(--c-border-medium)
+
+.color-sample
+  width 40px
+  height @width
+  line-height @width
+  text-align center
+  border-radius var(--s-sm)
+  color var(--p-black)
+
+  &:nth-child(-n + 6)
+    color var(--p-white)
 
 </style>

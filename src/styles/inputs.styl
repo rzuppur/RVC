@@ -22,7 +22,7 @@ control()
   height _$input-height
   padding 0 12px
   border-radius $s-sm
-  border 1px solid $c-border-medium
+  border 2px solid $c-border-dark
 
   color $c-text
   background $c-background-raised
@@ -65,7 +65,7 @@ control()
     background $c-button-hover
 
   &:focus
-    box-shadow inset 0 0 0 1px $c-accent-black, inset 0 0 0 3px $c-accent-yellow !important
+    box-shadow inset 0 0 0 2px $c-accent-yellow !important
     border-color $c-accent-black !important
 
   &.borderless
@@ -92,15 +92,11 @@ control()
 
   &.icon-only
     width _$input-height
-    min-width @width
+    min-width 0
     padding 0
 
     &.small
       width _$input-height-small
-      min-width @width
-
-  &:not(.icon-only)
-    min-width 65px
 
   &.loading
     color transparent !important
@@ -189,7 +185,7 @@ _$buttons_margin = _$s-sm
     .r-button + .r-button
       border-top-left-radius 0
       border-bottom-left-radius 0
-      margin-left -1px
+      margin-left -2px
 
     .r-button
 
@@ -218,10 +214,9 @@ _$buttons_margin = _$s-sm
 
   &.invalid
     border-color $c-accent-error
-    box-shadow inset 0 0 2px $c-accent-error
 
 textarea.r-input-text
   overflow hidden
   height auto
-  padding 9px 12px
+  padding 9px 12px 12px
   resize vertical

@@ -1,7 +1,4 @@
 .DS_Store
 node_modules
-public
-dist/*.gz
-dist/*.map
 .idea
 /demo/dist/

@@ -1,4 +1,4 @@
-import { Plugin } from "vue";
+import type { Plugin } from "vue";
 import "./styles/main.styl";
 import { install, useToast, useModalConfirm } from "./plugin";
 

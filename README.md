@@ -40,7 +40,7 @@ Every property listed is optional. If button contains no childs but has an icon,
     label: string  // aria-label, for icon only buttons
     icon: string  // One of valid r-icon icons
     icon-right: boolean  // default false
-    icon-color: string  // ("gray" | "green" | "red" | "blue" | "gold" | "white")
+    icon-color: string  // ("gray" | "green" | "red" | "blue" | "yellow")
   >
     {{ text }}
   </r-button>
@@ -66,27 +66,32 @@ Containers for assigning a maximum width to content and adding a padding to side
 - `r-container-xl`
 - `r-container-fill`
 ### Forms
-Bind value with v-model. Same props (except _type_) apply for `r-text-input` and `r-text-area`
+Bind value with v-model. Same props (except _type_ and _small_) apply for `r-text-input` and `r-text-area`.
 
 ```html
 <div class="r-form-group">
   <r-text-input
-    label: string
-    placeholder: string
-    help: string
-    error: string // setting this will mark the field as invalid
-    type: string // default "text"
-    fullwidth: boolean  // default true
+    v-model
+    label?: string
+    placeholder?: string
+    help?: string
+    error?: string // setting this will mark the field as invalid
+    type?: string // default "text"
+    fullwidth?: boolean // default true
+    small?: boolean // default false
   >
   </r-text-input>
 </div>
 ```
 ### Icons
-Material or modified material icons as 24x24px svg.
+Icon component using [Material Symbols Rounded](https://github.com/google/material-design-icons).
+
 ```html
 <r-icon
   icon: string
-  class?: "gray" | "green" | "red" | "blue" | "white"
+  filled?: boolean
+  size?: "sm" | "md" | "lg"
+  class?: "gray" | "green" | "red" | "blue" | "yellow" | "white"
 />
 ```
 ### Modal
@@ -243,6 +248,9 @@ Apply display flex, direction row
 
 Apply flex direction column
 - `r-flex-container-column`
+
+Enable flex wrap
+- `r-flex-wrap`
 
 Align flex childs
 - `r-flex-items-{"start" | "center" | "end"}`

@@ -4,7 +4,7 @@
 .r-background-raised
   background $c-background-raised
 
-for size in "none" "xxs" "xs" "sm" "md" "lg" "xl" "xxl"
+for size in "xxs" "xs" "sm" "md" "lg" "xl" "xxl" "none"
   .r-border-radius-{size}
     border-radius lookup("$s-" + size) !important
 
@@ -38,6 +38,9 @@ for size in "xs" "sm" "md" "lg" "xl" "xxl"
 .r-flex-container
   display flex
   flex-direction row
+
+.r-flex-wrap
+  flex-wrap wrap
 
 .r-flex-container-column
   flex-direction column
