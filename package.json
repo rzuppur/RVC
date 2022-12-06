@@ -10,8 +10,8 @@
     "dev": "vite",
     "build:demo": "vite build",
     "build:docs": "pug -p docs < README.pug > README.md",
-    "build": "yarn run build:docs && rimraf dist/ && rollup -c",
-    "prepublishOnly": "yarn run build"
+    "build": "npm run build:docs && rimraf dist/ && rollup -c",
+    "prepublishOnly": "npm run build"
   },
   "types": "dist/index.d.ts",
   "module": "dist/index.js",

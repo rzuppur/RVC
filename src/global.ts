@@ -11,6 +11,6 @@ interface tooltipModifiers {
 }
 
 export const tooltips: Ref<Map<string, { value: string | null, modifiers: tooltipModifiers, el: HTMLElement, alive?: boolean, style?: { left: string, top: string } }>> = ref(new Map());
-export const activeTooltips: Ref<Set<string>> = ref(new Set());
+export const activeTooltips: Ref<Set<string>> = ref(new Set<string>());
 
 export const notify = ref();

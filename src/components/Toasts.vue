@@ -16,7 +16,7 @@ watchEffect(() => {
     const firstNotification = queue.value[0];
     setTimeout(() => {
       remove(firstNotification.index);
-    }, 1900 + firstNotification.message.length * 90);
+    }, 1900 + firstNotification.message.length * 70);
   }
 });
 
