@@ -77,9 +77,6 @@ BUTTON
     background-color transparent
     border-color transparent
 
-    &:hover
-      box-shadow inset 0 0 0 1px $c-border-medium
-
   &.primary
     background-color $c-button-primary
     border-color transparent
@@ -87,6 +84,9 @@ BUTTON
 
     &:hover
       background-color $c-button-primary-hover
+
+    &:active:not([disabled])
+      box-shadow inset 0 0 0 2px $c-button-primary
 
   &.gray
     background-color $c-button-gray
