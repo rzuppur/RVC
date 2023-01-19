@@ -29,18 +29,6 @@ const copyIconText = (iconText: string) => {
   });
 };
 
-// PALETTE COPY
-const copyPaletteVar = (color: string, shade: string) => {
-  navigator.permissions.query({ name: "clipboard-write" } as unknown as PermissionDescriptor).then((result) => {
-    if (result.state === "granted" || result.state === "prompt") {
-      const text = `var(--p-${color}-${shade})`;
-      navigator.clipboard.writeText(text).then(() => {
-        toast(`Copied ${text} to clipboard`);
-      });
-    }
-  });
-};
-
 // TOAST
 import { useToast } from "./main";
 const toast = useToast();
@@ -56,6 +44,56 @@ const confirmModal = useModalConfirm();
 const confirmModalDemo = async () => {
   const result = await confirmModal("Modal question?", "Confirm", "Cancel", "Description text");
   toast(result ? "Confirmed" : "Cancelled");
+};
+
+// CSS VARIABLES
+const allVariables = [...document.styleSheets]
+  .filter(sheet => !sheet.href)
+  .reduce((result, sheet) => {
+    return result.concat(
+      [...sheet.cssRules]
+        .filter(rule => rule.type === 1)
+    );
+  }, []);
+const darkModeVariables = allVariables
+  .filter(rule => rule.selectorText === "html.darkMode")
+  .reduce((result, cssRule) => {
+    return result.concat(
+      [...cssRule.style]
+        .reduce((result, rules) => result.concat(rules), [])
+        .map(rule => {
+          return {
+            name: rule.trim(),
+            value: cssRule.style.getPropertyValue(rule).trim(),
+          };
+        }))
+        .filter(rule => rule.name.startsWith("--"));
+  }, []);
+const rootVariables = allVariables
+  .filter(rule => rule.selectorText === ":root")
+  .reduce((result, cssRule) => {
+    return result.concat(
+      [...cssRule.style]
+        .reduce((result, rules) => result.concat(rules), [])
+        .map(rule => {
+          const darkMode = darkModeVariables.find(variable => variable.name === rule.trim());
+          return {
+            name: rule.trim(),
+            value: cssRule.style.getPropertyValue(rule).trim(),
+            valueDarkMode: darkMode && darkMode.value,
+          };
+        }))
+        .filter(rule => rule.name.startsWith("--"));
+  }, []);
+const copyVar = (name: string) => {
+  navigator.permissions.query({ name: "clipboard-write" } as unknown as PermissionDescriptor).then((result) => {
+    if (result.state === "granted" || result.state === "prompt") {
+      const text = `var(${name})`;
+      navigator.clipboard.writeText(text).then(() => {
+        toast(`Copied ${text} to clipboard`);
+      });
+    }
+  });
 };
 
 </script>
@@ -231,15 +269,17 @@ const confirmModalDemo = async () => {
     .r-background-raised.r-m-b-md.r-border-radius-md#7
       .r-p-lg
         h1.r-text-md.r-text-bold 7. Theming
-        p Color palette used is available as css variables, click on the color below to copy its name to clipboard.
-        .r-m-t-sm(v-for="color in ['gray', 'blue', 'red', 'purple', 'yellow', 'green']" style="font-family: monospace;")
-          .r-text-xxs.r-text-bold.r-m-b-xs --p-{{ color }}-{SHADE}
-          .r-flex-container.r-flex-wrap(style="gap: var(--s-xs);")
-            .color-sample(
-              v-for="shade in [950, 900, 850, 800, 700, 600, 500, 400, 300, 200, 100, 50]"
-              :style="`background: var(--p-${color}-${shade});`"
-              @click="copyPaletteVar(color, shade)"
-            ) {{ shade }}
+        p.r-m-b-md Use CSS variables to customize and/or extend colors, text styles and more. Click on the variable name below to copy it to clipboard.
+        .variable(v-for="variable in rootVariables" @click="copyVar(variable.name)")
+          .name {{ variable.name }}
+          .value.r-text-color-muted
+            .color(v-if="variable.value.startsWith('#')" :style="{ background:  variable.value }")
+            | {{ variable.value }}
+            r-icon(v-if="variable.valueDarkMode" icon="light_mode" size="sm")
+          .value.r-text-color-muted(v-if="variable.valueDarkMode")
+            .color(v-if="variable.valueDarkMode.startsWith('#')" :style="{ background:  variable.valueDarkMode }")
+            | {{ variable.valueDarkMode }}
+            r-icon(icon="dark_mode" size="sm")
       hr
       .r-p-lg(v-pre)
         include:markdown-it ../docs/variables.md
@@ -312,15 +352,62 @@ body
 .container-demo
   background var(--c-border-medium)
 
-.color-sample
-  width 40px
-  height @width
-  line-height @width
-  text-align center
-  border-radius var(--s-sm)
-  color var(--p-black)
+.variable
+  display flex
+  font-family monospace
+  margin-top 6px
+  font-size 11px
 
-  &:nth-child(-n + 6)
-    color var(--p-white)
+  &:hover
+    cursor pointer
+    filter brightness(0.95)
+
+  & > *
+    padding 3px 6px
+    background var(--c-background)
+
+    .color
+      height 14px
+      width @height
+      margin-top -3px
+      margin-bottom @margin-top
+      display inline-block
+      border-radius 4px
+      margin-right 4px
+      position relative
+
+      &:after
+        content ""
+        position absolute
+        top 0
+        left 0
+        right 0
+        bottom 0
+        border 1px solid #fff2
+        border-radius 4px
+        mix-blend-mode exclusion
+
+    .r-icon
+      margin-left 4px
+      vertical-align top
+      transform scale(0.9)
+      margin-top -1px
+      margin-right -2px
+
+    &:first-child
+      border-top-left-radius var(--s-sm)
+      border-bottom-left-radius var(--s-sm)
+      white-space nowrap
+      flex 0 0 auto
+      font-weight var(--t-weight-bold)
+      background var(--c-border-light)
+
+    &:not(:last-child)
+      border-right 2px solid var(--c-border-medium)
+
+    &:last-child
+      border-top-right-radius var(--s-sm)
+      border-bottom-right-radius var(--s-sm)
+      flex 0 1 auto
 
 </style>

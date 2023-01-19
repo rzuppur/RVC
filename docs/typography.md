@@ -4,6 +4,7 @@ Font size, letter spacing, line height
 - `r-text-size-{size}`
 - `r-text-letter-spacing-{size}`
 - `r-text-line-height-{size}`
+- `size: xxs | xs | sm | md | lg | xl | xxl`
 
 Weight
 

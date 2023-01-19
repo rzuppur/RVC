@@ -1,3 +1,6 @@
+/*
+SHARED
+ */
 control-fullwidth()
   display flex
   width 100%
@@ -25,7 +28,7 @@ control()
   border 2px solid $c-border-dark
 
   color $c-text
-  background $c-background-raised
+  background-color $c-background-raised
   font-family $t-family
   text-decoration none
 
@@ -36,17 +39,15 @@ control()
   &[disabled]
     pointer-events none
 
-  &:active:not([disabled]),
-  &:focus:not(:active)
-    border-color $c-accent-focus
-    box-shadow 0 0 2px $c-accent-focus
-
   &.fullwidth
     control-fullwidth()
 
   &.small
     control-small()
 
+/*
+BUTTON
+ */
 @keyframes rSpin
   from
     transform rotate(0deg)
@@ -59,12 +60,16 @@ control()
   user-select none
   white-space nowrap
   text-align center
+  transition background-color $transition-fast, box-shadow $transition-default
 
   &:hover,
   &.borderless:hover
-    background $c-button-hover
+    background-color $c-button-hover
 
-  &:focus
+  &:active:not([disabled])
+    box-shadow inset 0 0 0 2px $c-border-medium
+
+  &:focus:not(:active)
     box-shadow inset 0 0 0 2px $c-accent-yellow !important
     border-color $c-accent-black !important
 
@@ -72,19 +77,22 @@ control()
     background-color transparent
     border-color transparent
 
+    &:hover
+      box-shadow inset 0 0 0 1px $c-border-medium
+
   &.primary
-    background $c-button-primary
+    background-color $c-button-primary
     border-color transparent
     color $c-text-white
 
     &:hover
-      background $c-button-primary-hover
+      background-color $c-button-primary-hover
 
   &.gray
-    background $c-button-gray
+    background-color $c-button-gray
 
     &:hover
-      background $c-button-hover
+      background-color $c-button-hover
 
   &[disabled]
     box-shadow none !important
@@ -120,20 +128,8 @@ control()
     border-top-color $c-accent-white
     border-right-color $c-accent-white
 
-  &:not(.muted) > span:not(.icon)
-    font-weight $t-weight-medium
-
-  & > span
-    transition opacity 75ms
-
-    &:not(.r-icon)
-      position relative
-      white-space nowrap
-      overflow hidden
-      text-overflow ellipsis
-      font-size $t-size-xs
-
   & > .r-icon
+    transition opacity $transition-fast
 
     &:first-child:not(:last-child)
       margin-left -2px
@@ -147,6 +143,15 @@ control()
       margin-left 0
       margin-right 0
 
+  & > span:not(.r-icon)
+    transition opacity $transition-fast
+    font-weight $t-weight-medium
+    position relative
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    font-size $t-size-xs
+
 &.small > .r-icon
 
   &:first-child:not(:last-child)
@@ -157,7 +162,9 @@ control()
     margin-right -4px
     margin-left 5px
 
-
+/*
+BUTTON GROUP
+ */
 _$buttons_margin = _$s-sm
 
 .r-buttons
@@ -171,6 +178,7 @@ _$buttons_margin = _$s-sm
   .r-button
     margin-right _$buttons_margin
     margin-bottom _$buttons_margin
+    max-width 100%
     flex 0 0 auto
 
 .r-buttons-grouped
@@ -196,16 +204,32 @@ _$buttons_margin = _$s-sm
       &:not(:last-child)
         border-top-right-radius 0
         border-bottom-right-radius 0
-
+/*
+FORM GROUP
+ */
 .r-form-group
   margin-bottom $s-md
 
+/*
+LABEL
+ */
 .r-form-label
   display block
   margin-bottom $space-extra-tiny
 
+/*
+TEXT
+ */
+
+ control-text()
+  &:active:not([disabled]),
+  &:focus:not(:active)
+    border-color $c-accent-focus
+    box-shadow 0 0 2px $c-accent-focus
+
 .r-input-text
   control()
+  control-text()
   color $c-text
 
   &::placeholder
@@ -216,6 +240,7 @@ _$buttons_margin = _$s-sm
     border-color $c-accent-error
 
 textarea.r-input-text
+  control-text()
   overflow hidden
   height auto
   padding 9px 12px 12px

@@ -79,8 +79,7 @@ const Button = () => {
         props.action(event);
       }
     },
-    onPointerdown(event) {
-      event.preventDefault();
+    onPointerup(event) {
       event.currentTarget.focus();
       event.currentTarget.blur();
     },

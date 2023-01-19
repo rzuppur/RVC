@@ -35,7 +35,7 @@ c("icon-white", $p-white)
 
 c("border-light", $p-gray-200, $p-gray-850)
 c("border-medium", $p-gray-300, $p-gray-800)
-c("border-dark", $p-gray-700, $p-gray-600)
+c("border-dark", $p-gray-500, $p-gray-700)
 
 c("accent-white", $p-white)
 c("accent-black", $p-black)
@@ -107,3 +107,10 @@ v("t-line-height-md", "calc(%s * 0.95)" % $t-line-height-base)
 v("t-line-height-lg", "calc(%s * 0.8)" % $t-line-height-base)
 v("t-line-height-xl", "calc(%s * 0.75)" % $t-line-height-base)
 v("t-line-height-xxl", "calc(%s * 0.75)" % $t-line-height-base)
+
+/*
+ANIMATIONS
+ */
+ v("transition-slow", 350ms cubic-bezier(.31, .79, .46, .92))
+ v("transition-default", 100ms cubic-bezier(.31, .79, .46, .92))
+ v("transition-fast", 70ms cubic-bezier(.31, .79, .46, .92))
