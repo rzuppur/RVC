@@ -48,7 +48,7 @@ const confirmModalDemo = async () => {
 
 // CSS VARIABLES
 const allVariables = [...document.styleSheets]
-  .filter(sheet => !sheet.href)
+  .filter(s => { try { s.cssRules; return true; } catch { return false; } })
   .reduce((result, sheet) => {
     return result.concat(
       [...sheet.cssRules]
